@@ -7,6 +7,7 @@ public class InputHandler : MonoBehaviour
 
     float ButtonCooler = 0.5f ;
     int ButtonCount = 0;
+    bool tapped = false;
 
 
     public delegate void TapAction();
@@ -17,7 +18,6 @@ public class InputHandler : MonoBehaviour
 
     public static List<Touch> touches;
 
-    // Update is called once per frame
     public static bool isTouching()
     {
         List<Touch> touches = InputHandler.touches;
@@ -29,7 +29,7 @@ public class InputHandler : MonoBehaviour
         List<Touch> touches = InputHandler.touches;
         foreach (Touch touch in touches)
         {
-            Debug.Log(touch.tapCount);
+            return touch.tapCount > 2;
         }
         return false;
     }
