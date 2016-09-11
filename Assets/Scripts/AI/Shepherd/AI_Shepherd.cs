@@ -17,19 +17,16 @@ public class AI_Shepherd : MonoBehaviour
     public Transform[] _waypoint = new Transform[4];
 
     #region movement variables
-    float speed = 8f;
-    Vector3 moveDirection;
-    float maxRotSpeed = 200.0f;
+    public float speed = 20f;
+    public float maxRotSpeed = 200.0f;
+    public float range;
+    public float attackRange;
+
+    int index;
+    int layerMask = 1 << 8;
     float minTime = 0.1f;
     float _Velocity;
-
-    float range;
-    float attackRange;
-    int index;
-    float angle = 90f;
-    int layerMask = 1 << 8;
-
-
+    Vector3 moveDirection;
     bool isCorouting;
     #endregion
     #region delegate variable
@@ -70,14 +67,7 @@ public class AI_Shepherd : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
-        if (!player.GetComponent<PlayerController>().isHided)
-        {
-            isFind = true;
-        }
-        else
-        {
-            isFind = false;
-        }
+        isFind = !player.GetComponent<PlayerController>().isHided;
 
         if (AIFunction() && isCorouting)
         {
@@ -119,60 +109,7 @@ public class AI_Shepherd : MonoBehaviour
     #region movement function
     void Walk()
     {
-        if ((_transform.position - _waypoint[index].position).sqrMagnitude > range)
-        {
-            Move(_waypoint[index]);
-            //animation.CrossFade("walk");
-        }
-        else
-        {
-            switch (index)
-            {
-                case 0:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                case 1:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                case 2:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                case 3:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                case 4:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                case 5:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                case 6:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                case 7:
-                    del = false;
-                    isCorouting = false;
-                    _delEnum = this.RotateWait;
-                    break;
-                default:
-                    NextIndex();
-                    break;
-            }
-        }
+        
     }
 
     void Attack()
@@ -180,11 +117,14 @@ public class AI_Shepherd : MonoBehaviour
         if ((_transform.position - player.position).sqrMagnitude > range)
         {
             Move(player);
-            //animation.CrossFade("walk");
         }
-        else
-        {
+    }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Player"))
+        {
+            other.transform.GetComponent<PlayerController>().Die();
         }
     }
     #endregion
@@ -219,7 +159,6 @@ public class AI_Shepherd : MonoBehaviour
                 _delFunc = this.Walk;
                 return false;
             }
-
     } 
 }
 #endregion

@@ -83,4 +83,17 @@ public class PlayerController : MonoBehaviour {
         InputHandler.OnTap -= Movement;
         InputHandler.OnDoubleTap -= Hide;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Sheep"))
+        {
+            other.transform.GetComponent<AI_Sheep>().Die();
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
 }
