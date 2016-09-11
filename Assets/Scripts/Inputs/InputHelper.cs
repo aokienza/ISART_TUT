@@ -22,18 +22,18 @@ public class InputHelper : MonoBehaviour
             lastFakeTouch.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             lastFakeTouch.fingerId = 0;
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButton(0))
         {
-            lastFakeTouch.phase = TouchPhase.Ended;
-            lastFakeTouch.tapCount -= 1;
+            lastFakeTouch.phase = TouchPhase.Moved;
             Vector2 newPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             lastFakeTouch.deltaPosition = newPosition - lastFakeTouch.position;
             lastFakeTouch.position = newPosition;
             lastFakeTouch.fingerId = 0;
         }
-        else if (Input.GetMouseButton(0))
+        else if (Input.GetMouseButtonUp(0))
         {
-            lastFakeTouch.phase = TouchPhase.Moved;
+            lastFakeTouch.phase = TouchPhase.Ended;
+            lastFakeTouch.tapCount -= 1;
             Vector2 newPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             lastFakeTouch.deltaPosition = newPosition - lastFakeTouch.position;
             lastFakeTouch.position = newPosition;

@@ -7,6 +7,7 @@ public class InputHandler : MonoBehaviour
 
     float ButtonCooler = 0.5f ;
     int ButtonCount = 0;
+    bool tapped = false;
 
 
     public delegate void TapAction();
@@ -17,19 +18,22 @@ public class InputHandler : MonoBehaviour
 
     public static List<Touch> touches;
 
-    // Update is called once per frame
     public static bool isTouching()
     {
         List<Touch> touches = InputHandler.touches;
         return (touches.Count > 0);
     }
 
-    public static bool isDoubleTapping()
+    public bool isDoubleTapping()
     {
         List<Touch> touches = InputHandler.touches;
         foreach (Touch touch in touches)
         {
-            Debug.Log(touch.tapCount);
+            if(ButtonCooler < 0 && touch.tapCount == 2)
+            {
+                ButtonCooler = 0.5f;
+                return true;
+            }
         }
         return false;
     }
@@ -48,5 +52,8 @@ public class InputHandler : MonoBehaviour
 
         if (isDoubleTapping() || Input.GetKeyDown(KeyCode.F))
             OnDoubleTap();
+
+        if (ButtonCooler > 0)
+            ButtonCooler -= Time.deltaTime;
     }
 }

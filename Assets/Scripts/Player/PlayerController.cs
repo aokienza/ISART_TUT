@@ -6,14 +6,23 @@ public class PlayerController : MonoBehaviour {
 
     public float velocity = 1;
 
-    private bool hide = false;
+    Transform _transform;
+
+    bool _hided = false;
+    public bool isHided
+    {
+        get { return _hided; }
+    }
+
     // Use this for initialization
     void Start () {
+
+        _transform = transform;
 
         InputHandler.OnTap += Movement;
         InputHandler.OnDoubleTap += Hide;
 
-        hide = false;
+        _hided = false;
     }
 
 
@@ -26,34 +35,46 @@ public class PlayerController : MonoBehaviour {
     {
         foreach (Touch touch in InputHandler.touches)
         {
-            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
-            {
-                Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-                Plane plane = new Plane(Vector3.up, transform.position);
-                Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                float distance = 0;
-                Vector3 direction = Vector3.zero;
-                if (plane.Raycast(ray, out distance))
-                {
-                    direction = (ray.GetPoint(distance) - transform.position).normalized * velocity;
-                }
-                transform.position = transform.position + new Vector3(direction.x, 0, direction.z);
+            Plane plane = new Plane(Vector3.up, _transform.position);
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
+            float distance = 0;
+            Vector3 direction = Vector3.zero;
+            direction = (ray.GetPoint(distance) - _transform.position).normalized * velocity;
+
+            if (isMovementPossible(direction))
+            {
+                transform.position = _transform.position + new Vector3(direction.x, 0, direction.z);
             }
         }
     }
 
+    bool isMovementPossible(Vector3 direction)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_transform.position, direction, out hit, velocity, 1 << 8))
+        {
+            if(hit.transform.CompareTag("Wall"))
+            {
+                return false;
+            }
+        }
+        return true;
+           
+    }
+
     void Hide()
     {
-        if (hide)
+        if (_hided)
         {
-            transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
-            hide = false;
+            transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
+            _hided = false;
         }
         else
         {
-            transform.position = new Vector3(transform.position.x, -20.5f, transform.position.z);
-            hide = true;
+            transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
+            _hided = true;
         }
     }
 
