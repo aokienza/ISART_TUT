@@ -49,10 +49,8 @@ public class AI_Shepherd : MonoBehaviour
 
         index = 0;//0で始める
 
-        range = 5f;
         attackRange = 2f;//仮の数値
 
-        //animation ["RotateWait"].wrapMode = WrapMode.Once;
         _delFunc = this.Walk;
         _delEnum = null;
         del = true;
@@ -99,13 +97,7 @@ public class AI_Shepherd : MonoBehaviour
     }
 
     //NextIndexではindexを増大させて配列以外では0をセット
-    void NextIndex()
-    {
-        if (++index == _waypoint.Length)
-        {
-            index = 0;
-        }
-    }
+
     #region movement function
     void Walk()
     {
@@ -132,8 +124,6 @@ public class AI_Shepherd : MonoBehaviour
     IEnumerator RotateWait()
     {
         yield return new WaitForSeconds(/*animation["RotateWait"].length*/0.5f);
-
-        NextIndex();
         del = true;
     }
 
@@ -141,7 +131,6 @@ public class AI_Shepherd : MonoBehaviour
     {
         //animation.CrossFade ("idle");
         yield return new WaitForSeconds(2.0f);
-        NextIndex();
         del = true;
     }
     #endregion
