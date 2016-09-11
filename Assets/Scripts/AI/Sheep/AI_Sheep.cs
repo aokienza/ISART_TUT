@@ -12,6 +12,8 @@ public class AI_Sheep : MonoBehaviour {
 
 	#region movement variables
 	public float speed = 2f;
+    public float Maxspeed = 18f;
+    float Minspeed;
     public float range;
     public float maxRotSpeed = 200.0f;
 
@@ -34,6 +36,7 @@ public class AI_Sheep : MonoBehaviour {
 	void Start () {
 		_controller = GetComponent<CharacterController> ();
 		_transform = GetComponent<Transform>();//_controllerでコントローラーを制御
+        Minspeed = speed;
 	}
 
 
@@ -47,6 +50,7 @@ public class AI_Sheep : MonoBehaviour {
         {
             if (!isRotate)
             {
+                if (_player.GetComponent<PlayerController>().isHided) return;
                 Move();
             }
             else
@@ -62,6 +66,7 @@ public class AI_Sheep : MonoBehaviour {
 		}
 
 	void Move(){
+        if (speed < Maxspeed) speed = speed + (Time.deltaTime*(Maxspeed - Minspeed));
 				moveDirection = _transform.forward;
 				moveDirection *= speed;
 				moveDirection.y += Physics.gravity.y * Time.deltaTime;
@@ -76,6 +81,7 @@ public class AI_Sheep : MonoBehaviour {
 
     void _Move()
     {
+        if (speed < Maxspeed) speed = speed + (Time.deltaTime * (Maxspeed - Minspeed));
         moveDirection = _transform.forward;
         moveDirection *= speed;
         moveDirection.y += Physics.gravity.y * Time.deltaTime;
@@ -105,6 +111,7 @@ public class AI_Sheep : MonoBehaviour {
         {
             waitTimer = 1.0f;
             waiting = false;
+            speed = Minspeed;
         }
     }
 
