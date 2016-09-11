@@ -12,16 +12,13 @@ public class AI_Sheep : MonoBehaviour {
 
 	#region movement variables
 	public float speed = 2f;
-	Vector3 moveDirection;
-	float maxRotSpeed = 200.0f;
-	float minTime = 0.1f;
+    public float range;
+    public float maxRotSpeed = 200.0f;
+
+    Vector3 moveDirection;
+    float minTime = 0.1f;
 	float _Velocity;
-
-	float range;
-	float attackRange;
-	int index;
-	float angle = 90f;
-
+    int index;
     int rot = 1;
     float rotTimer = 5f;
     float waitTimer = 2f;
@@ -121,4 +118,8 @@ public class AI_Sheep : MonoBehaviour {
         } 
     }
 
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
 }
