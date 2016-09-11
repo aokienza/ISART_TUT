@@ -12,6 +12,10 @@ public class vibrationManager : MonoBehaviour {
     public float LEVEL2;
     public float LEVEL3;
 
+
+    bool isRunning = false;
+
+
     void Start()
     {
         _Player = GameObject.Find("Player");
@@ -23,37 +27,31 @@ public class vibrationManager : MonoBehaviour {
         distance = Vector3.Distance(_Player.transform.position, _Shepherd.transform.position);
         if(distance > LEVEL1)
         {
-
+            // 
         }
         else if(LEVEL1 >= distance && distance > LEVEL2)
         {
-            StartCoroutine("Level1");
+            StartCoroutine("Vibrate",1.0f);
         }
         else if (LEVEL2 >= distance && distance > LEVEL3)
         {
-            StartCoroutine("Level2");
+            StartCoroutine("Vibrate",0.5f);
         }
         else if(LEVEL3 >= distance)
         {
-            StartCoroutine("Level3");
+            StartCoroutine("Vibrate",0.2f);
         }
     }
+    IEnumerator Vibrate(float time)
+    {
+        if (isRunning) yield break;
+        isRunning = true;
+        VibrateHandler();
+        yield return new WaitForSeconds(time);
+        isRunning = false;
+    }
+  
 
-    IEnumerator Level1()
-    {
-        VibrateHandler();
-        yield return new WaitForSeconds(1.0f);
-    }
-    IEnumerator Level2()
-    {
-        VibrateHandler();
-        yield return new WaitForSeconds(0.5f);
-    }
-    IEnumerator Level3()
-    {
-        VibrateHandler();
-        yield return new WaitForSeconds(0.2f);
-    }
     void VibrateHandler()
     {
         Handheld.Vibrate();
