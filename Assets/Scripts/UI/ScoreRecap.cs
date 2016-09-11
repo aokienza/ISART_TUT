@@ -10,13 +10,15 @@ public class ScoreRecap : MonoBehaviour {
     [SerializeField]
     Text menuScoreEnd;
 
-    [SerializeField]
+    [SerializeField] // Future feature, sauvegarde de score multiple
     int[] bestScores;
 
+    private static ScoreRecap alreadyCreated;
 
     void Awake()
     {
         DontDestroyOnLoad(this);
+        checkDoublon();
     }
     // Use this for initialization
     void Start()
@@ -25,10 +27,17 @@ public class ScoreRecap : MonoBehaviour {
         UpdateMenuScore(highScore);
     }
 
-    // Update is called once per frame
-    void Update()
+    void checkDoublon()
     {
-
+        if (alreadyCreated == null)
+        {
+            alreadyCreated = this;
+            
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public void SubmitScore(int score)
