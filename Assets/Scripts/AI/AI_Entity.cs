@@ -3,6 +3,9 @@ using System.Collections;
 
 public class AI_Entity : MonoBehaviour {
 
+    public delegate void DeathAction(Transform transform);
+    public static event DeathAction OnDeath;
+
     protected CharacterController _controller;
     protected Transform _transform;
     protected GameObject _player;
@@ -57,8 +60,9 @@ public class AI_Entity : MonoBehaviour {
         }
     }
 
-    public void Die()
+    public virtual void Die()
     {
+        OnDeath(transform);
         Destroy(gameObject);
     }
 }

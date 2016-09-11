@@ -8,12 +8,12 @@ public class LevelManager : MonoBehaviour {
     public GameObject stage;
     public GameObject[] entrances;
 
-    [HideInInspector]
-    public List<AI_Sheep> sheepAlive;
+    List<AI_Entity> _sheepAlive;
 
     // Use this for initialization
     void Start () {
         NewWave();
+        _sheepAlive = new List<AI_Entity>();
     }
 	
 	// Update is called once per frame
@@ -29,10 +29,16 @@ public class LevelManager : MonoBehaviour {
         {
             GameObject nSheep = Instantiate(sheep, entrance.transform.position, Quaternion.identity) as GameObject;
             StartCoroutine(nSheep.GetComponent<AI_Sheep>().GetOnSpot(getRandomPositionOnStage()));
+            _sheepAlive.Add(nSheep.GetComponent<AI_Sheep>());
         }
 
         GameObject nShepherd = Instantiate(shepherd, entrance.transform.position, Quaternion.identity) as GameObject;
         StartCoroutine(nShepherd.GetComponent<AI_Shepherd>().GetOnSpot(getRandomPositionOnStage()));
+    }
+
+    void OnSheepDeath(Transform transform)
+    {
+
     }
 
     Vector3 getRandomPositionOnStage()
