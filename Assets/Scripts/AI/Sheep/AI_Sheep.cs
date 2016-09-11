@@ -11,8 +11,7 @@ public class AI_Sheep : MonoBehaviour {
 	GameObject _player;
 
 	#region movement variables
-	float speed = 8f;
-	float gravity = 20f;
+	public float speed = 2f;
 	Vector3 moveDirection;
 	float maxRotSpeed = 200.0f;
 	float minTime = 0.1f;
@@ -59,7 +58,7 @@ public class AI_Sheep : MonoBehaviour {
 	void Move(){
 				moveDirection = _transform.forward;
 				moveDirection *= speed;
-				moveDirection.y -= gravity * Time.deltaTime;
+				moveDirection.y += Physics.gravity.y * Time.deltaTime;
 				_controller.Move (moveDirection * Time.deltaTime);
 
 				var newRotation = Quaternion.LookRotation (_player.transform.position - _transform.position * rot).eulerAngles;
@@ -74,7 +73,7 @@ public class AI_Sheep : MonoBehaviour {
         Debug.Log("_Move");
         moveDirection = _transform.forward;
         moveDirection *= speed;
-        moveDirection.y -= gravity * Time.deltaTime;
+        moveDirection.y += Physics.gravity.y * Time.deltaTime;
         _controller.Move(moveDirection * Time.deltaTime);
 
         var newRotation = Quaternion.LookRotation( _transform.position * rot).eulerAngles;

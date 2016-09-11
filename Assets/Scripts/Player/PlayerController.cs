@@ -6,14 +6,23 @@ public class PlayerController : MonoBehaviour {
 
     public float velocity = 1;
 
-    private bool hide = false;
+    Transform _transform;
+
+    bool _hided = false;
+    public bool isHided
+    {
+        get { return _hided; }
+    }
+
     // Use this for initialization
     void Start () {
+
+        _transform = transform;
 
         InputHandler.OnTap += Movement;
         InputHandler.OnDoubleTap += Hide;
 
-        hide = false;
+        _hided = false;
     }
 
 
@@ -28,14 +37,15 @@ public class PlayerController : MonoBehaviour {
         {
             Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-            Plane plane = new Plane(Vector3.up, transform.position);
+            Plane plane = new Plane(Vector3.up, _transform.position);
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             float distance = 0;
             Vector3 direction = Vector3.zero;
-            direction = (ray.GetPoint(distance) - transform.position).normalized * velocity;
+            direction = (ray.GetPoint(distance) - _transform.position).normalized * velocity;
+
             if (isMovementPossible(direction))
             {
-                transform.position = transform.position + new Vector3(direction.x, 0, direction.z);
+                transform.position = _transform.position + new Vector3(direction.x, 0, direction.z);
             }
         }
     }
@@ -43,7 +53,7 @@ public class PlayerController : MonoBehaviour {
     bool isMovementPossible(Vector3 direction)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, velocity, 1 << 8))
+        if (Physics.Raycast(_transform.position, direction, out hit, velocity, 1 << 8))
         {
             if(hit.transform.CompareTag("Wall"))
             {
@@ -56,15 +66,15 @@ public class PlayerController : MonoBehaviour {
 
     void Hide()
     {
-        if (hide)
+        if (_hided)
         {
-            transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
-            hide = false;
+            transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
+            _hided = false;
         }
         else
         {
-            transform.position = new Vector3(transform.position.x, -100.5f, transform.position.z);
-            hide = true;
+            transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
+            _hided = true;
         }
     }
 
@@ -72,10 +82,5 @@ public class PlayerController : MonoBehaviour {
     {
         InputHandler.OnTap -= Movement;
         InputHandler.OnDoubleTap -= Hide;
-    }
-
-    public bool getHide()
-    {
-        return hide;
     }
 }

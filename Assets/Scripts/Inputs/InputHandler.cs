@@ -24,12 +24,16 @@ public class InputHandler : MonoBehaviour
         return (touches.Count > 0);
     }
 
-    public static bool isDoubleTapping()
+    public bool isDoubleTapping()
     {
         List<Touch> touches = InputHandler.touches;
         foreach (Touch touch in touches)
         {
-            return touch.tapCount > 2;
+            if(ButtonCooler < 0 && touch.tapCount == 2)
+            {
+                ButtonCooler = 0.5f;
+                return true;
+            }
         }
         return false;
     }
@@ -48,5 +52,8 @@ public class InputHandler : MonoBehaviour
 
         if (isDoubleTapping() || Input.GetKeyDown(KeyCode.F))
             OnDoubleTap();
+
+        if (ButtonCooler > 0)
+            ButtonCooler -= Time.deltaTime;
     }
 }

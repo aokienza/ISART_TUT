@@ -18,7 +18,6 @@ public class AI_Shepherd : MonoBehaviour
 
     #region movement variables
     float speed = 8f;
-    float gravity = 20f;
     Vector3 moveDirection;
     float maxRotSpeed = 200.0f;
     float minTime = 0.1f;
@@ -71,7 +70,7 @@ public class AI_Shepherd : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
-        if (!player.GetComponent<PlayerController>().getHide())
+        if (!player.GetComponent<PlayerController>().isHided)
         {
             isFind = true;
         }
@@ -100,7 +99,7 @@ public class AI_Shepherd : MonoBehaviour
     {
         moveDirection = _transform.forward;
         moveDirection *= speed;
-        moveDirection.y -= gravity * Time.deltaTime;
+        moveDirection.y += Physics.gravity.y * Time.deltaTime;
         _controller.Move(moveDirection * Time.deltaTime);
 
         var newRotation = Quaternion.LookRotation(target.position - _transform.position).eulerAngles;
