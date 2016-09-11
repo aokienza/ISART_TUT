@@ -3,28 +3,18 @@ using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]//キャラクターコントローラがアタッチされていることを保証
 
-public class AI_Shepherd : MonoBehaviour
+public class AI_Shepherd : AI_Entity
 {
     #region variables
-    CharacterController _controller;
-    Transform _transform;
-    [SerializeField]
-    Transform player;
-
     public bool isFind = false;
 
     [SerializeField]
     public Transform[] _waypoint = new Transform[4];
 
     #region movement variables
-    public float speed = 20f;
-    public float maxRotSpeed = 200.0f;
-    public float range;
     public float attackRange;
 
-    int index;
     int layerMask = 1 << 8;
-    float minTime = 0.1f;
     float _Velocity;
     Vector3 moveDirection;
     bool isCorouting;
@@ -40,14 +30,9 @@ public class AI_Shepherd : MonoBehaviour
     #endregion
     #endregion
 
-
-    // Use this for initialization
-    void Start()
+    public override void onStart()
     {
-        _controller = GetComponent<CharacterController>();
-        _transform = GetComponent<Transform>();//_controllerでコントローラーを制御
-
-        index = 0;//0で始める
+        base.onStart();
 
         attackRange = 2f;//仮の数値
 
@@ -59,13 +44,9 @@ public class AI_Shepherd : MonoBehaviour
         layerMask = ~layerMask;
     }
 
-
-    // Update is called once per frame
-    void Update()
+    public override void onUpdate()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
-        isFind = !player.GetComponent<PlayerController>().isHided;
+        base.onUpdate();
 
         if (AIFunction() && isCorouting)
         {
@@ -82,6 +63,7 @@ public class AI_Shepherd : MonoBehaviour
             StartCoroutine(_delEnum());
         }
     }
+
 
     void Move(Transform target)
     {
@@ -106,9 +88,9 @@ public class AI_Shepherd : MonoBehaviour
 
     void Attack()
     {
-        if ((_transform.position - player.position).sqrMagnitude > range)
+        if ((_transform.position - _player.transform.position).sqrMagnitude > range)
         {
-            Move(player);
+            Move(_player.transform);
         }
     }
 
@@ -137,17 +119,16 @@ public class AI_Shepherd : MonoBehaviour
     #region AI function
     bool AIFunction()
     {
-        if(isFind)            
-            {
-                _delFunc = this.Attack;
-                return true;
-
-            }
-            else
-            {
-                _delFunc = this.Walk;
-                return false;
-            }
+        if (!_player.GetComponent<PlayerController>().isHided)
+        {
+            _delFunc = this.Attack;
+            return true;
+        }
+        else
+        {
+            _delFunc = this.Walk;
+            return false;
+        }
     } 
 }
 #endregion
