@@ -25,10 +25,11 @@ public class AI_Sheep : MonoBehaviour {
 
     int rot = 1;
     float rotTimer = 5f;
-    float idleTimer = 4f;
+    float waitTimer = 2f;
     float dist;
 
     bool isRotate = false;
+    bool waiting = false;
 	#endregion
 	#endregion
 
@@ -40,19 +41,27 @@ public class AI_Sheep : MonoBehaviour {
 	}
 
 
-	// Update is called once per frame
-	void Update () {
-            _player = GameObject.FindGameObjectWithTag("Player");
+    // Update is called once per frame
+    void Update()
+    {
+        _player = GameObject.FindGameObjectWithTag("Player");
+        Rottimer();
 
-        if (!isRotate)
+        if (!waiting)
         {
-            Move();
+            if (!isRotate)
+            {
+                Move();
+            }
+            else
+            {
+                _Move();
+            }
         }
         else
         {
-            _Move();
+            Waittimer();
         }
-            Rottimer();
 
 		}
 
@@ -71,7 +80,6 @@ public class AI_Sheep : MonoBehaviour {
 
     void _Move()
     {
-        Debug.Log("_Move");
         moveDirection = _transform.forward;
         moveDirection *= speed;
         moveDirection.y -= gravity * Time.deltaTime;
@@ -88,10 +96,22 @@ public class AI_Sheep : MonoBehaviour {
         if (rotTimer < 0)
         {
             rot *= -1;
-            rotTimer = Random.Range(2, 4);
+            rotTimer = Random.Range(1, 4);
             if (isRotate) isRotate = false;
+            waiting = true;
         }
     }
+
+    void Waittimer()
+    {
+        waitTimer -= Time.deltaTime;
+        if (waitTimer < 0)
+        {
+            waitTimer = 1.0f;
+            waiting = false;
+        }
+    }
+
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -101,4 +121,5 @@ public class AI_Sheep : MonoBehaviour {
             isRotate = true;
         } 
     }
+
 }
