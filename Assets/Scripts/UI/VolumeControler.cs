@@ -6,7 +6,6 @@ public class VolumeControler : MonoBehaviour {
 
     [SerializeField]
     float volume;
-    AudioListener activeCam;
 
     void Start()
     {
@@ -24,14 +23,8 @@ public class VolumeControler : MonoBehaviour {
 
     void Update()
     {
-        if (GameObject.FindObjectOfType<AudioListener>() == true && !activeCam)
-        {
-            activeCam = GameObject.FindObjectOfType<AudioListener>();
-        }
-        else if (activeCam)
-        {
-            //activeCam.volume = volume;
-        }
+        AudioListener.volume = volume;
+        //Debug.Log(AudioListener.volume);
     }
 
     public void SetVolume(float newVolume)
