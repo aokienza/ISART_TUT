@@ -73,4 +73,9 @@ public class PlayerController : MonoBehaviour {
         InputHandler.OnTap -= Movement;
         InputHandler.OnDoubleTap -= Hide;
     }
+
+    public bool getHide()
+    {
+        return hide;
+    }
 }
