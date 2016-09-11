@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
-            transform.position = new Vector3(transform.position.x, -20.5f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, -100.5f, transform.position.z);
             hide = true;
         }
     }
