@@ -35,9 +35,6 @@ public class PlayerController : MonoBehaviour {
     {
         foreach (Touch touch in InputHandler.touches)
         {
-            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
-
-            Plane plane = new Plane(Vector3.up, _transform.position);
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             float distance = 0;
             Vector3 direction = Vector3.zero;
