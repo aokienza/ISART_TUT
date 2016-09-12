@@ -20,8 +20,8 @@ public class LevelManager : MonoBehaviour, EventHandler
     public GameObject[] entrances;
 
 
-    Text sheepCount;
-    Text shepherdCount;
+    Text UISheepCount;
+    Text UIShepherdCount;
     int shepherdNumber;
 
     public int minSheep = 5;
@@ -47,10 +47,11 @@ public class LevelManager : MonoBehaviour, EventHandler
         GameManager.instance.OnGamePause    += PauseGame;
         GameManager.instance.OnGameUnPause  += UnPauseGame;
         GameManager.instance.OnGameEnd      += EndGame;
-        shepherdNumber = 0;
-        sheepCount = GameObject.Find("SheepCount").GetComponent<Text>();
-        shepherdCount = GameObject.Find("ShepherdCount").GetComponent<Text>();
 
+
+        shepherdNumber = 0;
+        UISheepCount = GameObject.Find("UISheepCount").GetComponent<Text>();
+        UIShepherdCount = GameObject.Find("UIShepherdCount").GetComponent<Text>();
     }
 
     public void PlayerCought()
@@ -122,8 +123,8 @@ public class LevelManager : MonoBehaviour, EventHandler
 
         GameObject nShepherd = Instantiate(shepherd, entrance.transform.position, Quaternion.identity) as GameObject;
         shepherdNumber++;
-        shepherdCount.text = shepherdNumber.ToString();
-        sheepCount.text = _sheepList.Count.ToString();
+        UIShepherdCount.text = shepherdNumber.ToString();
+        UISheepCount.text = _sheepList.Count.ToString();
         StartCoroutine(nShepherd.GetComponent<AI_Shepherd>().GetOnSpot(getRandomPositionOnStage()));
     }
 
@@ -144,7 +145,7 @@ public class LevelManager : MonoBehaviour, EventHandler
         sheepScript.Unregister();
         Destroy(sheepScript.gameObject);
 
-        sheepCount.text = _sheepList.Count.ToString();
+        UISheepCount.text = _sheepList.Count.ToString();
     }
 
     Vector3 getRandomPositionOnStage()

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour,  EventHandler
 {
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     public float velocity = 20;
 
+    Image UIHideMask;
     Transform _transform;
     Animator _animator;
     AudioSource _audioSource;
@@ -34,6 +36,9 @@ public class PlayerController : MonoBehaviour,  EventHandler
         InputHandler.instance.OnTap += Movement;
         InputHandler.instance.OnDoubleTap += Hide;
         InputHandler.instance.StopTap += Idle;
+
+        UIHideMask = GameObject.Find("UIHideMask").GetComponent<Image>();
+
         _hided = false;
     }
 
@@ -91,12 +96,14 @@ public class PlayerController : MonoBehaviour,  EventHandler
         {
             _transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
             _animator.SetTrigger("isDigUp");
+            UIHideMask.color = new Color(255,255,255,0);
             _hided = false;
         }
         else if (!_hided && !_dead)
         {
             _transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
             _animator.SetTrigger("isDigDown");
+            UIHideMask.color = new Color(255, 255, 255, 255);
             _hided = true;
         }
     }
