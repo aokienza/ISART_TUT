@@ -19,14 +19,10 @@ public class ScoreRecap : MonoBehaviour
     [SerializeField]
     Text menuScoreEnd;
 
-    [SerializeField]
     string[,] PlayerName = new string[3,5];
 
     [SerializeField] // Future feature, sauvegarde de score multiple
     Dictionary<string, int[]> bestScore = new Dictionary<string, int[]>();
-
-    string nowPlayer;
-
 
     void Awake()
     {
@@ -54,6 +50,7 @@ public class ScoreRecap : MonoBehaviour
             {
                 bestScore[levels[j]][i] = PlayerPrefs.GetInt(("bestScores" + levels[j]), 0);
             }
+
         }
     }
  
