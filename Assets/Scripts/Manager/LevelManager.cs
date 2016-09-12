@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour, EventHandler
 {
@@ -17,6 +18,11 @@ public class LevelManager : MonoBehaviour, EventHandler
     public GameObject sheep;
     public GameObject stage;
     public GameObject[] entrances;
+
+
+    Text sheepCount;
+    Text shepherdCount;
+    int shepherdNumber;
 
     public int minSheep = 5;
     public int maxSheep = 7;
@@ -41,6 +47,10 @@ public class LevelManager : MonoBehaviour, EventHandler
         GameManager.instance.OnGamePause    += PauseGame;
         GameManager.instance.OnGameUnPause  += UnPauseGame;
         GameManager.instance.OnGameEnd      += EndGame;
+        shepherdNumber = 0;
+        sheepCount = GameObject.Find("SheepCount").GetComponent<Text>();
+        shepherdCount = GameObject.Find("ShepherdCount").GetComponent<Text>();
+
     }
 
     public void PlayerCought()
@@ -95,9 +105,11 @@ public class LevelManager : MonoBehaviour, EventHandler
     }
 
     // Update is called once per frame
-    void Update () {
-	
-	}
+    void Update ()
+    {
+        sheepCount.text = _sheepList.Count.ToString();
+        shepherdCount.text = shepherdNumber.ToString();
+    }
 
     void NewWave()
     {
@@ -113,6 +125,7 @@ public class LevelManager : MonoBehaviour, EventHandler
         }
 
         GameObject nShepherd = Instantiate(shepherd, entrance.transform.position, Quaternion.identity) as GameObject;
+        shepherdNumber++;
         StartCoroutine(nShepherd.GetComponent<AI_Shepherd>().GetOnSpot(getRandomPositionOnStage()));
     }
 
