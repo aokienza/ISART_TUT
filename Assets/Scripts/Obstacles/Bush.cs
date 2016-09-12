@@ -6,7 +6,7 @@ public class Bush : MonoBehaviour {
     float velocity;
 	// Use this for initialization
 	void Start () {
-        velocity = GameObject.Find("Player").GetComponent<PlayerController>().velocity;
+        velocity = GameObject.FindWithTag("Player").GetComponent<PlayerController>().velocity;
 	}
 	
 	// Update is called once per frame
@@ -22,12 +22,28 @@ public class Bush : MonoBehaviour {
             _velocity = _velocity / loss;
             col.gameObject.GetComponent<PlayerController>().velocity = _velocity;
         }
+        if (col.transform.CompareTag("Sheep"))
+        {
+
+        }
+        if (col.transform.CompareTag("Shepherd"))
+        {
+
+        }
     }
     void OnTriggerExit(Collider col)
     {
         if (col.transform.CompareTag("Player"))
         {
             col.gameObject.GetComponent<PlayerController>().velocity = velocity;
+        }
+        if (col.transform.CompareTag("Sheep"))
+        {
+
+        }
+        if (col.transform.CompareTag("Shepherd"))
+        {
+
         }
     }
 }
