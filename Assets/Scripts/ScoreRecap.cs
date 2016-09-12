@@ -16,8 +16,6 @@ public class ScoreRecap : MonoBehaviour {
     [SerializeField] // Future feature, sauvegarde de score multiple
     Dictionary<string, int[]> bestScore = new Dictionary<string, int[]>();
 
-    private static ScoreRecap alreadyCreated; // Variable anti doublon
-
     void Awake()
     {
         if (instance == null)
@@ -25,9 +23,6 @@ public class ScoreRecap : MonoBehaviour {
 
         else if (instance != this)
             Destroy(gameObject);
-
-        DontDestroyOnLoad(this);
-        checkDoublon();
     }
     // Use this for initialization
     void Start()
@@ -46,19 +41,6 @@ public class ScoreRecap : MonoBehaviour {
             {
                 bestScore[levels[j]][i] = PlayerPrefs.GetInt(("bestScores"+ levels[j]), 0);
             }
-        }
-    }
-
-    void checkDoublon()
-    {
-        if (alreadyCreated == null)
-        {
-            alreadyCreated = this;
-            
-        }
-        else
-        {
-            Destroy(this.gameObject);
         }
     }
 

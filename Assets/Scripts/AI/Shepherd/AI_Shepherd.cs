@@ -83,8 +83,6 @@ public class AI_Shepherd : AI_Entity
         rescuePosition = target.position;
         if(action != Attack)
             action = Rescue;
-        
-
     }
 
     void AttackAction()
