@@ -24,7 +24,6 @@ public class VolumeControler : MonoBehaviour {
     void Update()
     {
         AudioListener.volume = volume;
-        //Debug.Log(AudioListener.volume);
     }
 
     public void SetVolume(float newVolume)
