@@ -21,32 +21,24 @@ public class AI_Sheep : AI_Entity
     #endregion
     #endregion
 
-
-    void Update()
+    #region AI behaviour
+    void CallHelp()
     {
-        onUpdate();
-    }
-
-    public override void onUpdate()
-    {
-        base.onUpdate();
-
-        Rottimer();
-
-        if (!waiting)
+        GameObject[] shepherds = GameObject.FindGameObjectsWithTag("Shepherd");
+        float shorterDistance = -1;
+        GameObject shorterShepherds = null;
+        for (var i = 0; i < shepherds.Length; i++)
         {
-            if (!isRotate)
+            float dist = Vector3.Distance(shepherds[i].transform.position, transform.position);
+            if (shorterDistance == -1 || dist < shorterDistance)
             {
-                Move();
-            }
-            else
-            {
-                _Move();
+                shorterShepherds = shepherds[i];
             }
         }
-        else
+
+        if(shorterShepherds != null)
         {
-            Waittimer();
+            shorterShepherds.GetComponent<AI_Shepherd>().RescueAction(transform);
         }
     }
 
@@ -57,26 +49,26 @@ public class AI_Sheep : AI_Entity
 		moveDirection.y += Physics.gravity.y * Time.deltaTime;
 		_controller.Move (moveDirection * Time.deltaTime);
 
-		var newRotation = Quaternion.LookRotation (_player.transform.position - _transform.position * rot).eulerAngles;
-        newRotation.y = newRotation.y + Random.Range(90,270);
-		var angles = _transform.rotation.eulerAngles;
-		_transform.rotation = Quaternion.Euler (angles.x, Mathf.SmoothDampAngle 
-		                               		(angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed) , angles.z);
+        if (isRotate)
+        {
+            var newRotation = Quaternion.LookRotation(_player.position - _transform.position * rot).eulerAngles;
+            newRotation.y = newRotation.y + Random.Range(90, 270);
+            var angles = _transform.rotation.eulerAngles;
+            _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
+                                                   (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
+        }
+        else
+        {
+            var newRotation = Quaternion.LookRotation(_transform.position * rot).eulerAngles;
+            var angles = _transform.rotation.eulerAngles;
+            _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
+                                                (angles.y, newRotation.y + 135, ref _Velocity, minTime, maxRotSpeed), angles.z);
+        }
 	}
 
-    void _Move()
-    {
-        moveDirection = _transform.forward;
-        moveDirection *= speed;
-        moveDirection.y += Physics.gravity.y * Time.deltaTime;
-        _controller.Move(moveDirection * Time.deltaTime);
+    #endregion
 
-        var newRotation = Quaternion.LookRotation( _transform.position * rot).eulerAngles;
-        var angles = _transform.rotation.eulerAngles;
-        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
-                                            (angles.y, newRotation.y + 135, ref _Velocity, minTime, maxRotSpeed), angles.z);
-    }
-
+    #region AI movement
     void Rottimer()
     {
         rotTimer -= Time.deltaTime;
@@ -98,14 +90,45 @@ public class AI_Sheep : AI_Entity
             waiting = false;
         }
     }
+    #endregion
+    #region Class inherited
+    public override void onStart()
+    {
+        base.onStart();
 
+        OnPlayerDetectedStart += CallHelp;
+
+    }
+
+    public override void onUpdate()
+    {
+        base.onUpdate();
+
+        Rottimer();
+
+        if (!waiting)
+        {
+            Move();
+        }
+        else
+        {
+            Waittimer();
+        }
+    }
+
+    public override void Death()
+    {
+        base.Death();
+        OnPlayerDetectedStart -= CallHelp;
+    }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        // hit.gameObjectで衝突したオブジェクト情報が得られる
-        if(hit.gameObject.tag == "Wall")
-        { 
+        if (hit.gameObject.tag == "Wall")
+        {
             isRotate = true;
-        } 
+        }
     }
+    #endregion
+
 }

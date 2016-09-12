@@ -5,41 +5,110 @@ using System.Collections;
 
 public class AI_Shepherd : AI_Entity
 {
-    #region variables
-    public bool isFind = false;
-
-    [SerializeField]
-    public Transform[] _waypoint = new Transform[4];
-
     #region movement variables
-    public float attackRange;
-
     int layerMask = 1 << 8;
+
     float _Velocity;
+
     Vector3 moveDirection;
-    bool isCorouting;
+    Vector3 rescuePosition;
     #endregion
+
     #region delegate variable
-    delegate void DelFunc();
-    delegate IEnumerator DelEnum();
-    DelFunc _delFunc;
-    DelEnum _delEnum;
-    bool del;
 
+    delegate void Action();
+    Action action;
 
     #endregion
+
+    //NextIndexではindexを増大させて配列以外では0をセット
+
+    #region AI movements
+    void Move(Vector3 targetPos)
+    {
+        moveDirection = _transform.forward;
+        moveDirection *= speed;
+        moveDirection.y += Physics.gravity.y * Time.deltaTime;
+        _controller.Move(moveDirection * Time.deltaTime);
+
+        var newRotation = Quaternion.LookRotation(targetPos - _transform.position).eulerAngles;
+        var angles = _transform.rotation.eulerAngles;
+        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
+                                            (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
+    }
+
+    void Walk()
+    {
+
+    }
+
+    void Rescue()
+    {
+        if (Vector3.Distance(_transform.position , rescuePosition) > 5f)
+        {
+            Move(rescuePosition);
+        }
+        else
+        {
+            WalkAction();
+        }
+    }
+
+    void Attack()
+    {
+        if (Vector3.Distance(_transform.position , _player.position) > 0f)
+        {
+            Move(_player.position);
+        }
+    }
+
+    #endregion
+    #region animation functions
+    IEnumerator RotateWait()
+    {
+        yield return new WaitForSeconds(/*animation["RotateWait"].length*/0.5f);
+    }
+
+    IEnumerator Wait()
+    {
+        //animation.CrossFade ("idle");
+        yield return new WaitForSeconds(2.0f);
+    }
     #endregion
 
+    #region AI behaviour
+
+    public void RescueAction(Transform target)
+    {
+        rescuePosition = target.position;
+        if(action != Attack)
+            action = Rescue;
+        
+
+    }
+
+    void AttackAction()
+    {
+        action = Attack;
+    }
+
+    void WalkAction()
+    {
+        action = Walk;
+    }
+
+    #endregion
+
+    #region Class inherited
     public override void onStart()
     {
         base.onStart();
 
-        attackRange = 2f;//仮の数値
+        action = Walk;
 
-        _delFunc = this.Walk;
-        _delEnum = null;
-        del = true;
-        isCorouting = false;
+        OnPlayerDetectedStart += Attack;
+        OnPlayerDetectedStay += Attack;
+        OnPlayerDetectedEnd += Walk;
 
         layerMask = ~layerMask;
     }
@@ -47,90 +116,26 @@ public class AI_Shepherd : AI_Entity
     public override void onUpdate()
     {
         base.onUpdate();
-
-        if (AIFunction() && isCorouting)
-        {
-            StopAllCoroutines();
-            del = true;
-        }
-        if (del)
-        {
-            _delFunc();
-        }
-        else if (!isCorouting)
-        {
-            isCorouting = true;
-            StartCoroutine(_delEnum());
-        }
+        Debug.Log(action != Attack);
+        action();
     }
 
-
-    void Move(Transform target)
+    public override void Death()
     {
-        moveDirection = _transform.forward;
-        moveDirection *= speed;
-        moveDirection.y += Physics.gravity.y * Time.deltaTime;
-        _controller.Move(moveDirection * Time.deltaTime);
-
-        var newRotation = Quaternion.LookRotation(target.position - _transform.position).eulerAngles;
-        var angles = _transform.rotation.eulerAngles;
-        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
-                                            (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
-    }
-
-    //NextIndexではindexを増大させて配列以外では0をセット
-
-    #region movement function
-    void Walk()
-    {
-        
-    }
-
-    void Attack()
-    {
-        if ((_transform.position - _player.transform.position).sqrMagnitude > range)
-        {
-            Move(_player.transform);
-        }
+        base.Death();
+        OnPlayerDetectedStart -= Attack;
+        OnPlayerDetectedStay -= Attack;
+        OnPlayerDetectedEnd -= Walk;
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))
         {
-            other.transform.GetComponent<PlayerController>().Die();
+            other.transform.GetComponent<PlayerController>().Death();
         }
     }
     #endregion
-    #region animation functions
-    IEnumerator RotateWait()
-    {
-        yield return new WaitForSeconds(/*animation["RotateWait"].length*/0.5f);
-        del = true;
-    }
-
-    IEnumerator Wait()
-    {
-        //animation.CrossFade ("idle");
-        yield return new WaitForSeconds(2.0f);
-        del = true;
-    }
-    #endregion
-    #region AI function
-    bool AIFunction()
-    {
-        if (!_player.GetComponent<PlayerController>().isHided)
-        {
-            _delFunc = this.Attack;
-            return true;
-        }
-        else
-        {
-            _delFunc = this.Walk;
-            return false;
-        }
-    } 
 }
-#endregion
 
 
