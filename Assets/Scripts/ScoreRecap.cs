@@ -16,6 +16,8 @@ public class ScoreRecap : MonoBehaviour
     Text[] highScoresTexts = new Text[15];
     #endregion
 
+    //string[,] playername;
+
     [SerializeField]
     Text menuScoreEnd;
 

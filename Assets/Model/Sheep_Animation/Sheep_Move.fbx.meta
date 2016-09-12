@@ -1,0 +1,197 @@
+fileFormatVersion: 2
+guid: b58111c8738d3e44fa52e073b080a7d4
+timeCreated: 1473686008
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Sheep_body
+    100002: Sheep_bone
+    100004: Sheep_chin
+    100006: Sheep_face
+    100008: Sheep_face 1
+    100010: Sheep_Left_hind_leg
+    100012: Sheep_Left_hind_leg2
+    100014: Sheep_Left_hind_leg3
+    100016: Sheep_Left_hind_leg4
+    100018: //RootNode
+    100020: Sheep_neck
+    100022: Sheep_Right_front__leg
+    100024: Sheep_Right_front__leg2
+    100026: Sheep_Right_front__leg3
+    100028: Sheep_Right_front__leg4
+    100030: Sheep_Right_front_leg
+    100032: Sheep_Right_front_leg2
+    100034: Sheep_Right_front_leg3
+    100036: Sheep_Right_front_leg4
+    100038: Sheep_Right_hind_leg
+    100040: Sheep_Right_hind_leg2
+    100042: Sheep_Right_hind_leg3
+    100044: Sheep_Right_hind_leg4
+    400000: Sheep_body
+    400002: Sheep_bone
+    400004: Sheep_chin
+    400006: Sheep_face
+    400008: Sheep_face 1
+    400010: Sheep_Left_hind_leg
+    400012: Sheep_Left_hind_leg2
+    400014: Sheep_Left_hind_leg3
+    400016: Sheep_Left_hind_leg4
+    400018: //RootNode
+    400020: Sheep_neck
+    400022: Sheep_Right_front__leg
+    400024: Sheep_Right_front__leg2
+    400026: Sheep_Right_front__leg3
+    400028: Sheep_Right_front__leg4
+    400030: Sheep_Right_front_leg
+    400032: Sheep_Right_front_leg2
+    400034: Sheep_Right_front_leg3
+    400036: Sheep_Right_front_leg4
+    400038: Sheep_Right_hind_leg
+    400040: Sheep_Right_hind_leg2
+    400042: Sheep_Right_hind_leg3
+    400044: Sheep_Right_hind_leg4
+    4300000: Sheep_body
+    4300002: Sheep_face
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Sheep_body
+    13700002: Sheep_face
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 6
+      lastFrame: 12
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Sheep_body
+        weight: 1
+      - path: Sheep_bone
+        weight: 1
+      - path: Sheep_bone/Sheep_Left_hind_leg
+        weight: 1
+      - path: Sheep_bone/Sheep_Left_hind_leg/Sheep_Left_hind_leg2
+        weight: 1
+      - path: Sheep_bone/Sheep_Left_hind_leg/Sheep_Left_hind_leg2/Sheep_Left_hind_leg3
+        weight: 1
+      - path: Sheep_bone/Sheep_Left_hind_leg/Sheep_Left_hind_leg2/Sheep_Left_hind_leg3/Sheep_Left_hind_leg4
+        weight: 1
+      - path: Sheep_bone/Sheep_neck
+        weight: 1
+      - path: Sheep_bone/Sheep_neck/Sheep_face 1
+        weight: 1
+      - path: Sheep_bone/Sheep_neck/Sheep_face 1/Sheep_chin
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front__leg
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front__leg/Sheep_Right_front__leg2
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front__leg/Sheep_Right_front__leg2/Sheep_Right_front__leg3
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front__leg/Sheep_Right_front__leg2/Sheep_Right_front__leg3/Sheep_Right_front__leg4
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front_leg
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front_leg/Sheep_Right_front_leg2
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front_leg/Sheep_Right_front_leg2/Sheep_Right_front_leg3
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_front_leg/Sheep_Right_front_leg2/Sheep_Right_front_leg3/Sheep_Right_front_leg4
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_hind_leg
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_hind_leg/Sheep_Right_hind_leg2
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_hind_leg/Sheep_Right_hind_leg2/Sheep_Right_hind_leg3
+        weight: 1
+      - path: Sheep_bone/Sheep_Right_hind_leg/Sheep_Right_hind_leg2/Sheep_Right_hind_leg3/Sheep_Right_hind_leg4
+        weight: 1
+      - path: Sheep_face
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
