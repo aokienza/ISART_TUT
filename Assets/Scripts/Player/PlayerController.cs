@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour {
         get { return _hided; }
     }
 
+    void Awake()
+    {
+        Debug.Log("nez Bonhomme");
+    }
     // Use this for initialization
     void Start () {
 

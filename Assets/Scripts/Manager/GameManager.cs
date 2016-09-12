@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     protected static bool UISpawned = false;
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(transform.gameObject);
 
         if (instance == null)
             instance = this;
@@ -60,13 +60,15 @@ public class GameManager : MonoBehaviour {
             OnGameEnd();
     }
 
-    public void LoadedLevel()
+    void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         StartGame();
     }
 
     public void LoadScene(string LevelName)
     {
         SceneManager.LoadScene(LevelName);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 }

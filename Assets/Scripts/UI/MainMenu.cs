@@ -2,14 +2,13 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour
+{
 
     [SerializeField]
     GameObject startMenu;
     [SerializeField]
-    GameObject mainMenu;
-    [SerializeField]
-    GameObject GameScreen;
+    GameObject gameMenu;
 
     public static MainMenu instance = null;
 
@@ -22,6 +21,8 @@ public class MainMenu : MonoBehaviour {
 
         else if (instance != this)
             Destroy(gameObject);
+
+        DontDestroyOnLoad(transform.gameObject);
     }
 
     public void UnPauseLevel()
@@ -37,17 +38,12 @@ public class MainMenu : MonoBehaviour {
     public void OpenLevel(string LevelName)
     {
         GameManager.instance.LoadScene(LevelName);
+        
+        if ("MainMenu" == LevelName)
+        {
+            startMenu.SetActive(true);
+            gameMenu.SetActive(false);
+        }
     }
-
-    public void GoToMainMenu()
-    {
-        GameManager.instance.LoadScene("MainMenu");
-        mainMenu.SetActive(true);
-        GameScreen.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update () {
-	
-	}
 }
+

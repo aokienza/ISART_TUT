@@ -32,18 +32,15 @@ public class LevelManager : MonoBehaviour
         GameManager.instance.OnGameEnd      += EndGame;
     }
 
-    void Start()
-    {
-        GameManager.instance.LoadedLevel();
-    }
-
     void NewGame()
     {
         Time.timeScale = 1;
-        playerRef = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity) as GameObject;
+        playerRef = (GameObject)Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
         playerRef.GetComponent<PlayerController>().OnPlayerDeath += PlayerDead;
         if (OnPlayerSpawn != null)
+        {
             OnPlayerSpawn(playerRef.transform);
+        }
 
         _sheepList = new List<AI_Entity>();
 
@@ -57,30 +54,26 @@ public class LevelManager : MonoBehaviour
         GameManager.instance.OnGameUnPause  -= UnPauseGame;
         GameManager.instance.OnGameEnd      -= EndGame;
 
-        Scene scene = SceneManager.GetActiveScene();
-        //ScoreRecap.instance.SubmitScore(scene.name, score);
-        MainMenu.instance.GoToMainMenu();
-        //Destroy(gameObject);
-
+        MainMenu.instance.OpenLevel("MainMenu");
     }
 
     void PlayerDead(Transform player)
     {
+        playerRef.GetComponent<PlayerController>().OnPlayerDeath -= PlayerDead;
         StartCoroutine(DeathAnim());
     }
 
     IEnumerator DeathAnim()
     {
-        playerRef.GetComponent<PlayerController>().OnPlayerDeath -= PlayerDead;
+        playerRef.GetComponent<PlayerController>().enabled = false;
+        GameManager.instance.Pause(true);
 
         float timer = 0;
-        GameManager.instance.Pause(true);
         while (timer < 2.0f)
         {
             timer += Time.unscaledDeltaTime;
             yield return null;
         }
-
         EndGame();
     }
 
