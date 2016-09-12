@@ -9,15 +9,18 @@ public class PlayerController : MonoBehaviour,  EventHandler
     public delegate void SheepEated(Transform value);
     public event SheepEated OnSheepEated;
 
-    public delegate void PlayerDeath(Transform player);
-    public event PlayerDeath OnPlayerDeath;
-
     public float velocity = 20;
 
     Transform _transform;
     Animator _animator;
+    AudioSource _audioSource;
 
+    public AudioClip moveSound;
+
+    bool _dead = false;
     bool _hided = false;
+
+    public AudioClip onDeath;
     public bool isHided
     {
         get { return _hided; }
@@ -25,7 +28,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     // Use this for initialization
     void Start () {
-
+        _audioSource = GetComponent<AudioSource>();
         _transform = transform;
         _animator = _transform.GetChild(0).GetComponent<Animator>();
         InputHandler.instance.OnTap += Movement;
@@ -36,13 +39,14 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     void Movement()
     {
+        if (_dead)
+            return;
         foreach (Touch touch in InputHandler.touches)
         {
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             float distance = 0;
             Vector3 direction = Vector3.zero;
             direction = (ray.GetPoint(distance) - _transform.position).normalized * Time.deltaTime;
-            //Debug.Log(direction.magnitude * velocity);
             _animator.SetFloat("speed", direction.magnitude * velocity);
             if (isMovementPossible(direction))
             {
@@ -52,6 +56,14 @@ public class PlayerController : MonoBehaviour,  EventHandler
                 transform.position = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
             }
         }
+    }
+
+    public void Cought()
+    {
+        _dead = true;
+        _audioSource.clip = onDeath;
+        _audioSource.Play();
+        _animator.SetBool("isDie", true);
     }
 
     void Idle()
@@ -75,13 +87,13 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     void Hide()
     {
-        if (_hided)
+        if (_hided && !_dead)
         {
             _transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
             _animator.SetTrigger("isDigUp");
             _hided = false;
         }
-        else
+        else if (!_hided && !_dead)
         {
             _transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
             _animator.SetTrigger("isDigDown");

@@ -20,6 +20,8 @@ public class AI_Shepherd : AI_Entity
     Action action;
 
     #endregion
+    public AudioClip OnCoughtSound;
+    public AudioClip OnSpotSound;
 
     #region AI movements
     void Move(Vector3 targetPos)
@@ -102,11 +104,17 @@ public class AI_Shepherd : AI_Entity
 
         action = Walk;
 
-        OnPlayerDetectedStart += Attack;
+        OnPlayerDetectedStart += Detection;
         OnPlayerDetectedStay += Attack;
         OnPlayerDetectedEnd += Walk;
 
         layerMask = ~layerMask;
+    }
+
+    void Detection()
+    {
+        _audioSource.clip = OnSpotSound;
+        _audioSource.Play();
     }
 
     public override void onUpdate()
@@ -119,8 +127,11 @@ public class AI_Shepherd : AI_Entity
     {
         if (other.transform.CompareTag("Player"))
         {
-            other.transform.GetChild(0).GetComponent<Animator>().SetBool("isDie", true);
+            _audioSource.clip = OnCoughtSound;
+            _audioSource.Play();
+            other.transform.GetComponent<PlayerController>().Cought();
             LevelManager.instance.PlayerCought();
+            enabled = false;
         }
     }
     #endregion
@@ -128,7 +139,7 @@ public class AI_Shepherd : AI_Entity
     public override void Unregister()
     {
         base.Unregister();
-        OnPlayerDetectedStart -= Attack;
+        OnPlayerDetectedStart -= Detection;
         OnPlayerDetectedStay -= Attack;
         OnPlayerDetectedEnd -= Walk;
     }
