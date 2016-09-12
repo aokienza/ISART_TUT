@@ -6,7 +6,7 @@ public class Stone : MonoBehaviour {
     float velocity;
 	// Use this for initialization
 	void Start () {
-        velocity = GameObject.Find("Player").GetComponent<PlayerController>().velocity;
+        velocity = GameObject.FindWithTag("Player").GetComponent<PlayerController>().velocity;
     }
 	
 	// Update is called once per frame
@@ -18,9 +18,16 @@ public class Stone : MonoBehaviour {
     {
         if (col.transform.CompareTag("Player"))
         {
-            Debug.Log("Stone");
             col.gameObject.GetComponent<PlayerController>().velocity = 0;
             Invoke("setFloat", StanTime);
+        }
+        if (col.transform.CompareTag("Sheep"))
+        {
+
+        }
+        if (col.transform.CompareTag("Shepherd"))
+        {
+
         }
     }
 
