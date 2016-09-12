@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour {
     public delegate void SheepEated(Transform value);
     public event SheepEated OnSheepEated;
 
+    public delegate void PlayerDeath();
+    public event PlayerDeath OnPlayerDeath;
+
     public float velocity = 1;
 
     Transform _transform;
@@ -97,6 +100,7 @@ public class PlayerController : MonoBehaviour {
 
     public void Death()
     {
+        OnPlayerDeath();
         Destroy(gameObject);
     }
 }

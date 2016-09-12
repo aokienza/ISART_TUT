@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+
 public class LevelManager : MonoBehaviour
 {
 
@@ -19,6 +21,8 @@ public class LevelManager : MonoBehaviour
     public int minSheep = 5;
     public int maxSheep = 7;
 
+
+    int score;
     List<AI_Entity> _sheepList;
 
     // Use this for initialization
@@ -47,7 +51,7 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1;
         GameObject nPlayer = Instantiate(player, playerSpawnPoint.position, Quaternion.identity) as GameObject;
-
+        nPlayer.GetComponent<PlayerController>().OnPlayerDeath += EndGame;
         if (OnPlayerSpawn != null)
             OnPlayerSpawn(nPlayer.transform);
 
@@ -62,6 +66,10 @@ public class LevelManager : MonoBehaviour
         GameManager.instance.OnGamePause    -= PauseGame;
         GameManager.instance.OnGameUnPause  -= UnPauseGame;
         GameManager.instance.OnGameEnd      -= EndGame;
+
+        Scene scene = SceneManager.GetActiveScene();
+        ScoreRecap.instance.SubmitScore(scene.name, score);
+        //nPlayer.GetComponent<PlayerController>().OnPlayerDeath -= EndGame;
     }
 
     void PauseGame()

@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class ScoreRecap : MonoBehaviour {
+
+    public static ScoreRecap instance = null;
 
     public int highScore; // High Score saved in game memory
     //public int score; // Local high score saved if higher than high score
@@ -11,41 +14,40 @@ public class ScoreRecap : MonoBehaviour {
     Text menuScoreEnd;
 
     [SerializeField] // Future feature, sauvegarde de score multiple
-    int[] bestScoresLevel1;
-    int[] bestScoresLevel2;
-    int[] bestScoresLevel3;
+    Dictionary<string, int[]> bestScore = new Dictionary<string, int[]>();
 
     private static ScoreRecap alreadyCreated; // Variable anti doublon
 
     void Awake()
     {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+            Destroy(gameObject);
         DontDestroyOnLoad(this);
         checkDoublon();
     }
     // Use this for initialization
     void Start()
     {
-        InitialisationScores();
+        RetrieveBestScore();
         UpdateMenuScore(highScore);
     }
-    void InitialisationScores()
+    void RetrieveBestScore()
     {
         // Initialisation High Score Level 1
-        for (int i = 0; i < bestScoresLevel1.Length; i++)
+        string[] levels = { "level1", "level2", "level3" };
+        for (int j = 0; j < levels.Length; j++)
         {
-            bestScoresLevel1[i] = PlayerPrefs.GetInt("bestScoresLevel1-" + i.ToString(), 0);
-        }
-        // Initialisation High Score Level 2
-        for (int i = 0; i < bestScoresLevel2.Length; i++)
-        {
-            bestScoresLevel2[i] = PlayerPrefs.GetInt("bestScoresLevel2-" + i.ToString(), 0);
-        }
-        // Initialisation High Score Level 3
-        for (int i = 0; i < bestScoresLevel3.Length; i++)
-        {
-            bestScoresLevel3[i] = PlayerPrefs.GetInt("bestScoresLevel3-" + i.ToString(), 0);
+            bestScore.Add(levels[j], new int[5]);
+            for (int i = 0; i < 5; i++)
+            {
+                bestScore[levels[j]][i] = PlayerPrefs.GetInt(("bestScores"+ levels[j]), 0);
+            }
         }
     }
+
     void checkDoublon()
     {
         if (alreadyCreated == null)
@@ -59,68 +61,39 @@ public class ScoreRecap : MonoBehaviour {
         }
     }
 
-    public void SubmitScoreLevel1(int score)
+    public void SubmitScore(string levelName, int score)
     {
-        int temp;
-        //int temp2;
-        for (var i = bestScoresLevel1.Length - 1; i >= 0; i--)
+        if (bestScore[levelName] != null)
         {
-            if (bestScoresLevel1[i] < score)
+            for (var i = bestScore[levelName].Length - 1; i >= 0; i--)
             {
-                temp = bestScoresLevel1[i];
-                bestScoresLevel1[i] = score;
-                score = temp;
+                if (bestScore[levelName][i] < score)
+                {
+                    InsertScoreInBestScores(bestScore[levelName], score, i);
+                    break;
+                }
             }
         }
-        for (int i = 0; i < bestScoresLevel1.Length; i++)
+
+        for (int i = 0; i < bestScore[levelName].Length; i++)
         {
-            PlayerPrefs.SetInt("bestScoresLevel1-" + i.ToString(), bestScoresLevel1[i]);
-        }
-        PlayerPrefs.Save();
-    }
-    public void SubmitScoreLevel2(int score)
-    {
-        int temp;
-        //int temp2;
-        for (var i = bestScoresLevel2.Length - 1; i >= 0; i--)
-        {
-            if (bestScoresLevel2[i] < score)
-            {
-                temp = bestScoresLevel2[i];
-                bestScoresLevel2[i] = score;
-                score = temp;
-            }
-        }
-        for (int i = 0; i < bestScoresLevel2.Length; i++)
-        {
-            PlayerPrefs.SetInt("bestScoresLevel2-" + i.ToString(), bestScoresLevel2[i]);
-        }
-        PlayerPrefs.Save();
-    }
-    public void SubmitScoreLevel3(int score)
-    {
-        int temp;
-        //int temp2;
-        for (var i = bestScoresLevel3.Length - 1; i >= 0; i--)
-        {
-            if (bestScoresLevel3[i] < score)
-            {
-                temp = bestScoresLevel3[i];
-                bestScoresLevel3[i] = score;
-                score = temp;
-            }
-        }
-        for (int i = 0; i < bestScoresLevel3.Length; i++)
-        {
-            PlayerPrefs.SetInt("bestScoresLevel3-" + i.ToString(), bestScoresLevel3[i]);
+            PlayerPrefs.SetInt(("bestScores"+ levelName), bestScore[levelName][i]);
         }
         PlayerPrefs.Save();
     }
 
-
+    void InsertScoreInBestScores(int[] tab, int bestScore, int index)
+    {
+        for (var i = 0; i < index; i++)
+        {
+            tab[i] = tab[i + 1];
+        }
+        tab[index] = bestScore;
+    }
 
     void UpdateMenuScore(int score)
     {
+        Debug.Log(score);
         menuScoreEnd.text = score.ToString();
     }
 
