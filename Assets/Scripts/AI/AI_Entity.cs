@@ -22,6 +22,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
     #endregion
 
     protected CharacterController _controller;
+    protected AudioSource _audioSource;
     protected Transform _transform;
     protected Transform _player;
     protected float minTime = 0.1f;
@@ -49,8 +50,10 @@ public class AI_Entity : MonoBehaviour, EventHandler
 
     public virtual void onStart()
     {
+
         _controller = GetComponent<CharacterController>();
         _transform = GetComponent<Transform>();
+        _audioSource = GetComponent<AudioSource>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 

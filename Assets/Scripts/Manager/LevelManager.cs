@@ -43,7 +43,6 @@ public class LevelManager : MonoBehaviour, EventHandler
 
     public void PlayerCought()
     {
-        GameManager.instance.Pause(true);
         playerRef.GetComponent<PlayerController>().enabled = false;
         StartCoroutine(DeathAnim());
     }

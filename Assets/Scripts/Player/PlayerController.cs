@@ -16,7 +16,11 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     Transform _transform;
     Animator _animator;
+    AudioSource _audioSource;
 
+    public AudioClip moveSound;
+
+    bool _dead = false;
     bool _hided = false;
     public bool isHided
     {
@@ -25,7 +29,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     // Use this for initialization
     void Start () {
-
+        _audioSource = GetComponent<AudioSource>();
         _transform = transform;
         _animator = _transform.GetChild(0).GetComponent<Animator>();
         InputHandler.instance.OnTap += Movement;
@@ -54,6 +58,12 @@ public class PlayerController : MonoBehaviour,  EventHandler
         }
     }
 
+    public void Cought()
+    {
+        _dead = true;
+        _animator.SetBool("isDie", true);
+    }
+
     void Idle()
     {
         _animator.SetFloat("speed", 0);
@@ -75,13 +85,13 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     void Hide()
     {
-        if (_hided)
+        if (_hided && !_dead)
         {
             _transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
             _animator.SetTrigger("isDigUp");
             _hided = false;
         }
-        else
+        else if (!_hided && !_dead)
         {
             _transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
             _animator.SetTrigger("isDigDown");

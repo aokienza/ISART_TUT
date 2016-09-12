@@ -18,6 +18,8 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     bool isRotate = false;
     bool waiting = false;
+
+    public AudioClip[] SheepSound;
     #endregion
     #endregion
 
@@ -100,10 +102,25 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     }
 
+    void trySheepSound()
+    {
+        if(Random.Range(0f,2048f) <= 2)
+        {
+            doSheepSound();
+        }
+    }
+
+    void doSheepSound()
+    {
+        AudioClip sound = SheepSound[Random.Range(0, SheepSound.Length)];
+        _audioSource.clip = sound;
+        _audioSource.Play();
+    }
+
     public override void onUpdate()
     {
         base.onUpdate();
-
+        trySheepSound();
         Rottimer();
 
         if (!waiting)
