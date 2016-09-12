@@ -77,7 +77,6 @@ public class LevelManager : MonoBehaviour, EventHandler
     void EndGame()
     {
         scoreObject.RetrieveBestScore();
-        Debug.Log(SceneManager.GetActiveScene().name);
         scoreObject.SubmitScore(SceneManager.GetActiveScene().name,score);
         MainMenu.instance.OpenLevel("MainMenu");
     }
@@ -106,8 +105,6 @@ public class LevelManager : MonoBehaviour, EventHandler
     // Update is called once per frame
     void Update ()
     {
-        sheepCount.text = _sheepList.Count.ToString();
-        shepherdCount.text = shepherdNumber.ToString();
     }
 
     void NewWave()
@@ -125,6 +122,8 @@ public class LevelManager : MonoBehaviour, EventHandler
 
         GameObject nShepherd = Instantiate(shepherd, entrance.transform.position, Quaternion.identity) as GameObject;
         shepherdNumber++;
+        shepherdCount.text = shepherdNumber.ToString();
+        sheepCount.text = _sheepList.Count.ToString();
         StartCoroutine(nShepherd.GetComponent<AI_Shepherd>().GetOnSpot(getRandomPositionOnStage()));
     }
 
@@ -142,9 +141,10 @@ public class LevelManager : MonoBehaviour, EventHandler
         {
             NewWave();
         }
-
         sheepScript.Unregister();
         Destroy(sheepScript.gameObject);
+
+        sheepCount.text = _sheepList.Count.ToString();
     }
 
     Vector3 getRandomPositionOnStage()
