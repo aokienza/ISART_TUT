@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: b2d8f05d3cff7ea46bf8a60a94686090
+timeCreated: 1473653501
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Snake
+    100002: Snake_bone1
+    100004: Snake_bone10
+    100006: Snake_bone11
+    100008: Snake_bone12
+    100010: Snake_bone2
+    100012: Snake_bone3
+    100014: Snake_bone4
+    100016: Snake_bone5
+    100018: Snake_bone6
+    100020: Snake_bone7
+    100022: Snake_bone8
+    100024: Snake_bone9
+    100026: Snake_Lower_jaw1
+    100028: Snake_Lower_jaw2
+    100030: Snake_Lower_jaw3
+    100032: Snake_upper_jaw1
+    100034: Snake_upper_jaw2
+    100036: Snake_upper_jaw3
+    100038: //RootNode
+    400000: Snake
+    400002: Snake_bone1
+    400004: Snake_bone10
+    400006: Snake_bone11
+    400008: Snake_bone12
+    400010: Snake_bone2
+    400012: Snake_bone3
+    400014: Snake_bone4
+    400016: Snake_bone5
+    400018: Snake_bone6
+    400020: Snake_bone7
+    400022: Snake_bone8
+    400024: Snake_bone9
+    400026: Snake_Lower_jaw1
+    400028: Snake_Lower_jaw2
+    400030: Snake_Lower_jaw3
+    400032: Snake_upper_jaw1
+    400034: Snake_upper_jaw2
+    400036: Snake_upper_jaw3
+    400038: //RootNode
+    4300000: Snake
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Snake
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 6
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Snake
+        weight: 1
+      - path: Snake_bone1
+        weight: 1
+      - path: Snake_bone1/Snake_bone2
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5/Snake_bone6
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5/Snake_bone6/Snake_bone7
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5/Snake_bone6/Snake_bone7/Snake_bone8
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5/Snake_bone6/Snake_bone7/Snake_bone8/Snake_bone9
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5/Snake_bone6/Snake_bone7/Snake_bone8/Snake_bone9/Snake_bone10
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5/Snake_bone6/Snake_bone7/Snake_bone8/Snake_bone9/Snake_bone10/Snake_bone11
+        weight: 1
+      - path: Snake_bone1/Snake_bone2/Snake_bone3/Snake_bone4/Snake_bone5/Snake_bone6/Snake_bone7/Snake_bone8/Snake_bone9/Snake_bone10/Snake_bone11/Snake_bone12
+        weight: 1
+      - path: Snake_bone1/Snake_Lower_jaw1
+        weight: 1
+      - path: Snake_bone1/Snake_Lower_jaw1/Snake_Lower_jaw2
+        weight: 1
+      - path: Snake_bone1/Snake_Lower_jaw1/Snake_Lower_jaw2/Snake_Lower_jaw3
+        weight: 1
+      - path: Snake_bone1/Snake_upper_jaw1
+        weight: 1
+      - path: Snake_bone1/Snake_upper_jaw1/Snake_upper_jaw2
+        weight: 1
+      - path: Snake_bone1/Snake_upper_jaw1/Snake_upper_jaw2/Snake_upper_jaw3
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
