@@ -8,9 +8,9 @@ public class vibrationManager : MonoBehaviour {
 
     float distance;
 
-    public float LEVEL1;
-    public float LEVEL2;
-    public float LEVEL3;
+    public float LEVEL1_range;
+    public float LEVEL2_range;
+
 
 
     bool isRunning = false;
@@ -18,29 +18,30 @@ public class vibrationManager : MonoBehaviour {
 
     void Start()
     {
-        _Player = GameObject.Find("Player");
-        _Shepherd = GameObject.Find("Shepherd");
+        _Player = GameObject.FindWithTag("Player");
+        _Shepherd = GameObject.FindWithTag("Shepherd");
     }
-
+    
     void Update()
     {
-        distance = Vector3.Distance(_Player.transform.position, _Shepherd.transform.position);
-        if(distance > LEVEL1)
+        //debug//VibrateHandler();
+        Vector3 PlayerVec = new Vector3(_Player.transform.position.x, 0, _Player.transform.position.z);
+        Vector3 shepherdVec = new Vector3(_Shepherd.transform.position.x, 0, _Shepherd.transform.position.z);
+        distance = Vector3.Distance(PlayerVec,shepherdVec);
+        Debug.Log(distance);
+        if(distance > LEVEL1_range)
         {
             // 
         }
-        else if(LEVEL1 >= distance && distance > LEVEL2)
+        else if(LEVEL1_range >= distance && distance > LEVEL2_range)
         {
-            StartCoroutine("Vibrate",1.0f);
+            StartCoroutine("Vibrate",3.0f);
         }
-        else if (LEVEL2 >= distance && distance > LEVEL3)
+        else if (LEVEL2_range >= distance )
         {
-            StartCoroutine("Vibrate",0.5f);
+            StartCoroutine("Vibrate",1.5f);
         }
-        else if(LEVEL3 >= distance)
-        {
-            StartCoroutine("Vibrate",0.2f);
-        }
+
     }
     IEnumerator Vibrate(float time)
     {
