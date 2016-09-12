@@ -81,6 +81,7 @@ public class LevelManager : MonoBehaviour, EventHandler
 
     void EndGame()
     {
+        score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().score;
         scoreObject.RetrieveBestScore();
         scoreObject.SubmitScore(SceneManager.GetActiveScene().name,score);
         GameOverButton.SetActive(true);
