@@ -25,6 +25,7 @@ public class ScoreRecap : MonoBehaviour {
 
         else if (instance != this)
             Destroy(gameObject);
+
         DontDestroyOnLoad(this);
         checkDoublon();
     }
@@ -93,7 +94,6 @@ public class ScoreRecap : MonoBehaviour {
 
     void UpdateMenuScore(int score)
     {
-        Debug.Log(score);
         menuScoreEnd.text = score.ToString();
     }
 

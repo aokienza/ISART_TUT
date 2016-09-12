@@ -3,12 +3,13 @@ using System.Collections;
 
 public class TopCamera : MonoBehaviour {
 
+    public LevelManager _level;
     public Transform target;
     public float height = 20f;
 	// Use this for initialization
 	void Awake ()
     {
-        LevelManager.instance.OnPlayerSpawn += SetTarget;
+        _level.OnPlayerSpawn += SetTarget;
     }
 	
 	// Update is called once per frame

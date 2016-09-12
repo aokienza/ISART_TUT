@@ -5,13 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-
-    public static LevelManager instance = null;
-
     public delegate void PlayerSpawn(Transform value);
     public event PlayerSpawn OnPlayerSpawn;
 
-    public GameObject player;
+    public GameObject playerPrefab;
     public Transform playerSpawnPoint;
     public GameObject shepherd;
     public GameObject sheep;
@@ -21,25 +18,18 @@ public class LevelManager : MonoBehaviour
     public int minSheep = 5;
     public int maxSheep = 7;
 
-
     int score;
-    List<AI_Entity> _sheepList;
+    GameObject playerRef;
+    List <AI_Entity> _sheepList;
 
     // Use this for initialization
 
     void Awake()
     {
-        if (instance == null)
-            instance = this;
-
-        else if (instance != this)
-            Destroy(gameObject);
-
-
-        GameManager.instance.OnGameStart += NewGame;
-        GameManager.instance.OnGamePause += PauseGame;
-        GameManager.instance.OnGameUnPause += UnPauseGame;
-        GameManager.instance.OnGameEnd += EndGame;
+        GameManager.instance.OnGameStart    += NewGame;
+        GameManager.instance.OnGamePause    += PauseGame;
+        GameManager.instance.OnGameUnPause  += UnPauseGame;
+        GameManager.instance.OnGameEnd      += EndGame;
     }
 
     void Start()
@@ -50,10 +40,10 @@ public class LevelManager : MonoBehaviour
     void NewGame()
     {
         Time.timeScale = 1;
-        GameObject nPlayer = Instantiate(player, playerSpawnPoint.position, Quaternion.identity) as GameObject;
-        nPlayer.GetComponent<PlayerController>().OnPlayerDeath += EndGame;
+        playerRef = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity) as GameObject;
+        playerRef.GetComponent<PlayerController>().OnPlayerDeath += PlayerDead;
         if (OnPlayerSpawn != null)
-            OnPlayerSpawn(nPlayer.transform);
+            OnPlayerSpawn(playerRef.transform);
 
         _sheepList = new List<AI_Entity>();
 
@@ -68,8 +58,30 @@ public class LevelManager : MonoBehaviour
         GameManager.instance.OnGameEnd      -= EndGame;
 
         Scene scene = SceneManager.GetActiveScene();
-        ScoreRecap.instance.SubmitScore(scene.name, score);
-        //nPlayer.GetComponent<PlayerController>().OnPlayerDeath -= EndGame;
+        //ScoreRecap.instance.SubmitScore(scene.name, score);
+        MainMenu.instance.GoToMainMenu();
+        //Destroy(gameObject);
+
+    }
+
+    void PlayerDead(Transform player)
+    {
+        StartCoroutine(DeathAnim());
+    }
+
+    IEnumerator DeathAnim()
+    {
+        playerRef.GetComponent<PlayerController>().OnPlayerDeath -= PlayerDead;
+
+        float timer = 0;
+        GameManager.instance.Pause(true);
+        while (timer < 2.0f)
+        {
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        EndGame();
     }
 
     void PauseGame()

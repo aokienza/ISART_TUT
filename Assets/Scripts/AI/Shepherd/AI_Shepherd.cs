@@ -122,9 +122,6 @@ public class AI_Shepherd : AI_Entity
     public override void Death()
     {
         base.Death();
-        OnPlayerDetectedStart -= Attack;
-        OnPlayerDetectedStay -= Attack;
-        OnPlayerDetectedEnd -= Walk;
     }
 
     void OnTriggerEnter(Collider other)
@@ -133,6 +130,14 @@ public class AI_Shepherd : AI_Entity
         {
             other.transform.GetComponent<PlayerController>().Death();
         }
+    }
+
+    public override void Uninstanciate()
+    {
+        OnPlayerDetectedStart -= Attack;
+        OnPlayerDetectedStay -= Attack;
+        OnPlayerDetectedEnd -= Walk;
+        base.Uninstanciate();
     }
     #endregion
 }

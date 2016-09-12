@@ -26,7 +26,12 @@ public class AI_Entity : MonoBehaviour {
     protected float minTime = 0.1f;
 
     #region capacities variables
-    protected bool isReady = false;
+    protected bool _isReady = false;
+    public bool isReady
+    {
+        get { return _isReady; }
+    }
+    protected bool Destroying = false;
     #endregion
 
     #region movement variables
@@ -46,16 +51,19 @@ public class AI_Entity : MonoBehaviour {
         _controller = GetComponent<CharacterController>();
         _transform = GetComponent<Transform>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        GameManager.instance.OnGameEnd += Uninstanciate;
     }
 
     void Update()
     {
-        onUpdate();
+        if(!Destroying)
+            onUpdate();
     }
 
     public virtual void onUpdate()
     {
-        if (!isReady)
+        if (!_isReady)
             return;
 
         PlayerDetectionDispatcher();
@@ -88,7 +96,7 @@ public class AI_Entity : MonoBehaviour {
     public virtual void Death()
     {
         OnDeath(transform);
-        Destroy(gameObject);
+        Uninstanciate();
     }
     #endregion
 
@@ -108,7 +116,7 @@ public class AI_Entity : MonoBehaviour {
         }
 
         transform.GetComponent<SphereCollider>().enabled = true;
-        isReady = true;
+        _isReady = true;
     }
 
 
@@ -122,5 +130,12 @@ public class AI_Entity : MonoBehaviour {
         return (playerDistance() < detectionRange && !_player.GetComponent<PlayerController>().isHided);
     }
 
+
+    public virtual void Uninstanciate()
+    {
+        StopAllCoroutines();
+        Destroying = true;
+        GameManager.instance.OnGameEnd -= Uninstanciate;
+    }
     #endregion
 }

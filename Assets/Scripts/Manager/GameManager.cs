@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
+    public GameObject UI;
 
     public delegate void GameStart();
     public event GameStart OnGameStart;
@@ -14,6 +16,7 @@ public class GameManager : MonoBehaviour {
     public delegate void GameEnd();
     public event GameEnd OnGameEnd;
 
+    protected static bool UISpawned = false;
     void Awake()
     {
         DontDestroyOnLoad(this);
@@ -23,6 +26,12 @@ public class GameManager : MonoBehaviour {
 
         else if (instance != this)
             Destroy(gameObject);
+
+        if (!UISpawned)
+        {
+            Instantiate(UI, Vector3.zero, Quaternion.identity);
+            UISpawned = true;
+        }
     }
 
     public void StartGame()
@@ -54,5 +63,10 @@ public class GameManager : MonoBehaviour {
     public void LoadedLevel()
     {
         StartGame();
+    }
+
+    public void LoadScene(string LevelName)
+    {
+        SceneManager.LoadScene(LevelName);
     }
 }

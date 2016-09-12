@@ -129,6 +129,11 @@ public class AI_Sheep : AI_Entity
             isRotate = true;
         }
     }
+
+    public override void Uninstanciate()
+    {
+        base.Uninstanciate();
+    }
     #endregion
 
 }

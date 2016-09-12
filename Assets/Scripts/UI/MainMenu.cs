@@ -6,27 +6,44 @@ public class MainMenu : MonoBehaviour {
 
     [SerializeField]
     GameObject startMenu;
+    [SerializeField]
+    GameObject mainMenu;
+    [SerializeField]
+    GameObject GameScreen;
+
+    public static MainMenu instance = null;
 
 
     // Use this for initialization
-    void Start() {
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
 
+        else if (instance != this)
+            Destroy(gameObject);
     }
 
-    public void OpenLevel()
+    public void UnPauseLevel()
     {
-        // Temporary
-        SceneManager.LoadScene("Level01");
-        if (Time.timeScale != 1)
-        {
-            Time.timeScale = 1;
-        }
-        
+        GameManager.instance.Pause(false);
     }
 
-    public void GoToMain()
+    public void PauseLevel()
     {
-        SceneManager.LoadScene("MainMenu");
+        GameManager.instance.Pause(true);
+    }
+
+    public void OpenLevel(string LevelName)
+    {
+        GameManager.instance.LoadScene(LevelName);
+    }
+
+    public void GoToMainMenu()
+    {
+        GameManager.instance.LoadScene("MainMenu");
+        mainMenu.SetActive(true);
+        GameScreen.SetActive(false);
     }
 
     // Update is called once per frame

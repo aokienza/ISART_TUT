@@ -8,10 +8,10 @@ public class PlayerController : MonoBehaviour {
     public delegate void SheepEated(Transform value);
     public event SheepEated OnSheepEated;
 
-    public delegate void PlayerDeath();
+    public delegate void PlayerDeath(Transform player);
     public event PlayerDeath OnPlayerDeath;
 
-    public float velocity = 1;
+    public float velocity = 20;
 
     Transform _transform;
 
@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour {
         InputHandler.OnTap += Movement;
         InputHandler.OnDoubleTap += Hide;
 
+        GameManager.instance.OnGameEnd += Uninstanciate;
+
         _hided = false;
     }
 
@@ -36,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-	}
+    }
 
     void Movement()
     {
@@ -45,11 +47,11 @@ public class PlayerController : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             float distance = 0;
             Vector3 direction = Vector3.zero;
-            direction = (ray.GetPoint(distance) - _transform.position).normalized * velocity;
+            direction = (ray.GetPoint(distance) - _transform.position).normalized * Time.deltaTime;
 
             if (isMovementPossible(direction))
             {
-                transform.position = _transform.position + new Vector3(direction.x, 0, direction.z);
+                transform.position = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
             }
         }
     }
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour {
     bool isMovementPossible(Vector3 direction)
     {
         RaycastHit hit;
-        if (Physics.Raycast(_transform.position, direction, out hit, velocity, 1 << 8))
+        if (Physics.Raycast(_transform.position, direction, out hit, velocity * 50, 1 << 8))
         {
             if(hit.transform.CompareTag("Wall"))
             {
@@ -72,12 +74,12 @@ public class PlayerController : MonoBehaviour {
     {
         if (_hided)
         {
-            transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
+            _transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
             _hided = false;
         }
         else
         {
-            transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
+            _transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
             _hided = true;
         }
     }
@@ -90,7 +92,7 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Sheep"))
+        if (other.transform.CompareTag("Sheep") && other.transform.GetComponent<AI_Sheep>().isReady)
         {
             if(OnSheepEated != null)
                 OnSheepEated(other.transform);
@@ -100,7 +102,11 @@ public class PlayerController : MonoBehaviour {
 
     public void Death()
     {
-        OnPlayerDeath();
-        Destroy(gameObject);
+        OnPlayerDeath(_transform);
+    }
+
+    public void Uninstanciate()
+    {
+        GameManager.instance.OnGameEnd -= Uninstanciate;
     }
 }
