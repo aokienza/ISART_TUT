@@ -130,7 +130,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
 
     protected float playerDistance()
     {
-        return Vector3.Distance(_transform.position, _player.transform. position);
+        return Vector3.Distance(_transform.position, _player.transform.position);
     }
 
     protected bool PlayerDetecteable()
