@@ -4,11 +4,14 @@ using UnityEngine.UI;
 
 public class ScoreDebug : MonoBehaviour {
 
+    int Score;
+
     [SerializeField]
     ScoreRecap scoreManager;
     [SerializeField]
     Text scoreChoose;
-
+    [SerializeField]
+    Text ScoreField;
     public void ScoreSubmitDebug()
     {
         

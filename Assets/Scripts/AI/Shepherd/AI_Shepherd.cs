@@ -116,7 +116,6 @@ public class AI_Shepherd : AI_Entity
     public override void onUpdate()
     {
         base.onUpdate();
-        Debug.Log(action != Attack);
         action();
     }
 

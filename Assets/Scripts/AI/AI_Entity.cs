@@ -73,7 +73,6 @@ public class AI_Entity : MonoBehaviour {
             else
             {
                 playerDetected = true;
-                Debug.Log("Ici");
                 if (OnPlayerDetectedStart != null)
                     OnPlayerDetectedStart();
             }

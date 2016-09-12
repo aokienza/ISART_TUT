@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
+
+    public delegate void SheepEated(Transform value);
+    public event SheepEated OnSheepEated;
+
     public float velocity = 1;
 
     Transform _transform;
@@ -85,6 +89,8 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.transform.CompareTag("Sheep"))
         {
+            if(OnSheepEated != null)
+                OnSheepEated(other.transform);
             other.transform.GetComponent<AI_Sheep>().Death();
         }
     }

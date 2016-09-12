@@ -4,17 +4,26 @@ using System.Collections;
 public class TopCamera : MonoBehaviour {
 
     public Transform target;
-    public float height;
+    public float height = 20f;
 	// Use this for initialization
-	void Start () {
-        transform.position = new Vector3(0, target.position.y + height, 0);
-        transform.LookAt(target);
+	void Awake ()
+    {
+        LevelManager.instance.OnPlayerSpawn += SetTarget;
     }
 	
 	// Update is called once per frame
-	void Update () {
-        Recenter();
+	void Update ()
+    {
+        if(target != null)
+            Recenter();
 	}
+
+    void SetTarget(Transform value)
+    {
+        target = value;
+        transform.position = new Vector3(target.position.x, target.position.y + height, target.position.z);
+        transform.LookAt(target);
+    }
 
     void Recenter()
     {

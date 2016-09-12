@@ -1,8 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class LevelManager : MonoBehaviour {
+public class LevelManager : MonoBehaviour
+{
 
+    public static LevelManager instance = null;
+
+    public delegate void PlayerSpawn(Transform value);
+    public event PlayerSpawn OnPlayerSpawn;
+
+    public GameObject player;
+    public Transform playerSpawnPoint;
     public GameObject shepherd;
     public GameObject sheep;
     public GameObject stage;
@@ -14,13 +22,60 @@ public class LevelManager : MonoBehaviour {
     List<AI_Entity> _sheepList;
 
     // Use this for initialization
-    void Start () {
+
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+            Destroy(gameObject);
+
+
+        GameManager.instance.OnGameStart += NewGame;
+        GameManager.instance.OnGamePause += PauseGame;
+        GameManager.instance.OnGameUnPause += UnPauseGame;
+        GameManager.instance.OnGameEnd += EndGame;
+    }
+
+    void Start()
+    {
+        GameManager.instance.LoadedLevel();
+    }
+
+    void NewGame()
+    {
+        Time.timeScale = 1;
+        GameObject nPlayer = Instantiate(player, playerSpawnPoint.position, Quaternion.identity) as GameObject;
+
+        if (OnPlayerSpawn != null)
+            OnPlayerSpawn(nPlayer.transform);
+
         _sheepList = new List<AI_Entity>();
+
         NewWave();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void EndGame()
+    {
+        GameManager.instance.OnGameStart    -= NewGame;
+        GameManager.instance.OnGamePause    -= PauseGame;
+        GameManager.instance.OnGameUnPause  -= UnPauseGame;
+        GameManager.instance.OnGameEnd      -= EndGame;
+    }
+
+    void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    void UnPauseGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    // Update is called once per frame
+    void Update () {
 	
 	}
 

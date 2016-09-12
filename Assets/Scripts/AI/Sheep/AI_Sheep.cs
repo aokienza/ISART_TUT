@@ -5,8 +5,8 @@ using System.Collections;
 
 public class AI_Sheep : AI_Entity
 {
-	#region variables
-	#region movement variables
+    #region variables
+    #region movement variables
 
     Vector3 moveDirection;
 	float _Velocity;

@@ -52,7 +52,6 @@ public class ScoreRecap : MonoBehaviour {
     
     void UpdateMenuScore(int score)
     {
-        Debug.Log(score);
         menuScoreEnd.text = score.ToString();
     }
 }
