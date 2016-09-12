@@ -34,6 +34,12 @@ public class TopCamera : MonoBehaviour, EventHandler
                                                 Time.deltaTime);
     }
 
+
+    public void OnDestroy()
+    {
+        Unregister();
+    }
+
     public void Unregister()
     {
         _level.OnPlayerSpawn -= SetTarget;

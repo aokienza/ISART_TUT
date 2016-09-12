@@ -116,6 +116,7 @@ public class LevelManager : MonoBehaviour, EventHandler
     {
         AI_Sheep sheepScript = transform.GetComponent<AI_Sheep>();
         sheepScript.OnDeath -= OnSheepDeath;
+
         if (_sheepList.Contains(sheepScript))
         {
             _sheepList.Remove(sheepScript);
@@ -125,6 +126,9 @@ public class LevelManager : MonoBehaviour, EventHandler
         {
             NewWave();
         }
+
+        sheepScript.Unregister();
+        Destroy(sheepScript.gameObject);
     }
 
     Vector3 getRandomPositionOnStage()
@@ -140,6 +144,10 @@ public class LevelManager : MonoBehaviour, EventHandler
     }
 
 
+    public void OnDestroy()
+    {
+        Unregister();
+    }
 
     public void Unregister()
     {

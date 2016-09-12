@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour {
     public void LoadScene(string LevelName)
     {
         SceneManager.LoadScene(LevelName);
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if(LevelName != "MainMenu")
+            SceneManager.sceneLoaded += OnSceneLoaded;
     }
 }

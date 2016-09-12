@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class InputHandler : MonoBehaviour
+public class InputHandler : MonoBehaviour, EventHandler
 {
     public static InputHandler instance = null;
     float ButtonCooler = 0.5f ;
@@ -67,5 +67,22 @@ public class InputHandler : MonoBehaviour
 
         if (ButtonCooler > 0)
             ButtonCooler -= Time.deltaTime;
+    }
+
+    void onDestroy()
+    {
+        Unregister();
+    }
+
+
+    public void OnDestroy()
+    {
+        Unregister();
+    }
+
+    public virtual void Unregister()
+    {
+        OnDoubleTap = null;
+        OnTap = null;
     }
 }

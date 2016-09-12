@@ -94,7 +94,11 @@ public class AI_Entity : MonoBehaviour, EventHandler
 
     public virtual void Death()
     {
-        OnDeath(transform);
+
+        if(!Destroying)
+         OnDeath(transform);
+        Destroying = true;
+
     }
     #endregion
 
@@ -129,6 +133,10 @@ public class AI_Entity : MonoBehaviour, EventHandler
     }
     #endregion
 
+    public void OnDestroy()
+    {
+        Unregister();
+    }
 
     public virtual void Unregister()
     {

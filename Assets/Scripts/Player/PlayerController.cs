@@ -94,9 +94,16 @@ public class PlayerController : MonoBehaviour,  EventHandler
         }
     }
 
+
+    public void OnDestroy()
+    {
+        Unregister();
+    }
+
     public void Unregister()
     {
         InputHandler.instance.OnTap -= Movement;
         InputHandler.instance.OnDoubleTap -= Hide;
+        Destroy(this);
     }
 }
