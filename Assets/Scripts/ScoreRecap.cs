@@ -19,17 +19,10 @@ public class ScoreRecap : MonoBehaviour
     [SerializeField]
     Text menuScoreEnd;
 
-    [SerializeField]
-    Text[] PlayerNameTexts = new Text[15];
+    string[,] PlayerName = new string[3,5];
 
     [SerializeField] // Future feature, sauvegarde de score multiple
     Dictionary<string, int[]> bestScore = new Dictionary<string, int[]>();
-
-    string nowPlayer;
-
-    [SerializeField] // Future feature, sauvegarde de score multiple
-    Dictionary<string, string[]> PlayerDictionary = new Dictionary<string, string[]>();
-
 
     void Awake()
     {
@@ -57,22 +50,10 @@ public class ScoreRecap : MonoBehaviour
             {
                 bestScore[levels[j]][i] = PlayerPrefs.GetInt(("bestScores" + levels[j]), 0);
             }
+
         }
     }
-    public void RetrievePlayerName()
-    {
-        // Initialisation High Score Level 1
-        string[] levels = { "level01", "level02", "level03" };
-        for (int j = 0; j < levels.Length; j++)
-        {
-            if (!PlayerDictionary.ContainsKey(levels[j]))
-                PlayerDictionary.Add(levels[j], new string[5]);
-            for (int i = 0; i < 5; i++)
-            {
-                PlayerDictionary[levels[j]][i] = PlayerPrefs.GetString(("PlayerName" + levels[j]), "NoPlayer");
-            }
-        }
-    }
+ 
     public void SubmitScore(string levelName, int score)
     {
         if (!bestScore.ContainsKey(levelName))
@@ -83,7 +64,6 @@ public class ScoreRecap : MonoBehaviour
         {
             if (bestScore[levelName][i] < score)
             {
-                InsertPlayerName(PlayerDictionary[levelName], nowPlayer, i);
                 InsertScoreInBestScores(bestScore[levelName], score, i);
                 UpdateHighScoresMenu(levelName, score, i);
                 break;
@@ -94,11 +74,6 @@ public class ScoreRecap : MonoBehaviour
         {
             PlayerPrefs.SetInt(("bestScores" + levelName), bestScore[levelName][i]);
         }
-        for (int i = 0; i < PlayerDictionary[levelName].Length; i++)
-        {
-            PlayerPrefs.SetString(("PlayerName" + levelName), PlayerDictionary[levelName][i]);
-        }
-
         PlayerPrefs.Save();
     }
 
@@ -112,14 +87,6 @@ public class ScoreRecap : MonoBehaviour
         tab[index] = bestScore;
     }
 
-    void InsertPlayerName(string[] tab, string name, int index)
-    {
-        for (var i = 0; i < index; i++)
-        {
-            tab[i] = tab[i + 1];
-        }
-        tab[index] = name;
-    }
     #region Update UI Scores
     void UpdateHighScoresMenu(string tableau, int score, int index)
     {
@@ -188,73 +155,7 @@ public class ScoreRecap : MonoBehaviour
         }
 
     }
-    void UpdatePlayerNameMenu(string tableau, string name, int index)
-    {
-        switch (tableau)
-        {
-            case "Level01":
-                switch (index)
-                {
-                    case 0:
-                        PlayerNameTexts[0].text = ("1) " + name).ToString();
-                        break;
-                    case 1:
-                        PlayerNameTexts[1].text = ("2) " + name).ToString();
-                        break;
-                    case 2:
-                        PlayerNameTexts[2].text = ("3) " + name).ToString();
-                        break;
-                    case 3:
-                        PlayerNameTexts[3].text = ("4) " + name).ToString();
-                        break;
-                    case 4:
-                        PlayerNameTexts[4].text = ("5) " + name).ToString();
-                        break;
-                }
-                break;
-            case "Level02":
-                switch (index)
-                {
-                    case 0:
-                        PlayerNameTexts[5].text = ("1) " + name).ToString();
-                        break;
-                    case 1:
-                        PlayerNameTexts[6].text = ("2) " + name).ToString();
-                        break;
-                    case 2:
-                        PlayerNameTexts[7].text = ("3) " + name).ToString();
-                        break;
-                    case 3:
-                        PlayerNameTexts[8].text = ("4) " + name).ToString();
-                        break;
-                    case 4:
-                        PlayerNameTexts[9].text = ("5) " + name).ToString();
-                        break;
-                }
-                break;
-            case "Level03":
-                switch (index)
-                {
-                    case 0:
-                        PlayerNameTexts[10].text = ("1) " + name).ToString();
-                        break;
-                    case 1:
-                        PlayerNameTexts[11].text = ("2) " + name).ToString();
-                        break;
-                    case 2:
-                        PlayerNameTexts[12].text = ("3) " + name).ToString();
-                        break;
-                    case 3:
-                        PlayerNameTexts[13].text = ("4) " + name).ToString();
-                        break;
-                    case 4:
-                        PlayerNameTexts[14].text = ("5) " + name).ToString();
-                        break;
-                }
-                break;
-        }
 
-    }
     /*void UpdateMenuScore(int score)
     {
         menuScoreEnd.text = score.ToString();

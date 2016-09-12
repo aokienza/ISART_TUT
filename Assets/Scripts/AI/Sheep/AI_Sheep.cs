@@ -27,6 +27,7 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Start()
     {
+        base.onStart();
         score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
 

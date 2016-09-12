@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour, EventHandler
     public int minSheep = 5;
     public int maxSheep = 7;
     ScoreRecap scoreObject;
-    int score;
+    public int score;
     GameObject playerRef;
     List <AI_Entity> _sheepList;
 
@@ -79,6 +79,10 @@ public class LevelManager : MonoBehaviour, EventHandler
     {
         scoreObject.RetrieveBestScore();
         scoreObject.SubmitScore(SceneManager.GetActiveScene().name,score);
+    }
+
+    public void GoBackToMenu()
+    {
         MainMenu.instance.OpenLevel("MainMenu");
     }
 

@@ -18,6 +18,7 @@ public class vibrationManager : MonoBehaviour {
 
     void Start()
     {
+        if (!SystemInfo.supportsVibration) Destroy(gameObject); 
         _Player = GameObject.FindWithTag("Player");
         _Shepherd = GameObject.FindWithTag("Shepherd");
     }
