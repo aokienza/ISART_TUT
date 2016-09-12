@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]//キャラクターコントローラがアタッチされていることを保証
 
-public class AI_Sheep : AI_Entity
+public class AI_Sheep : AI_Entity, EventHandler
 {
     #region variables
     #region movement variables
@@ -116,12 +116,6 @@ public class AI_Sheep : AI_Entity
         }
     }
 
-    public override void Death()
-    {
-        base.Death();
-        OnPlayerDetectedStart -= CallHelp;
-    }
-
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.gameObject.tag == "Wall")
@@ -129,11 +123,12 @@ public class AI_Sheep : AI_Entity
             isRotate = true;
         }
     }
-
-    public override void Uninstanciate()
-    {
-        base.Uninstanciate();
-    }
     #endregion
 
+
+    public override void Unregister()
+    {
+        base.Unregister();
+        OnPlayerDetectedStart -= CallHelp;
+    }
 }

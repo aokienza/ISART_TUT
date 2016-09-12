@@ -58,6 +58,12 @@ public class GameManager : MonoBehaviour {
     {
         if (OnGameEnd != null)
             OnGameEnd();
+
+        EventHandler[] elements = FindObjectsOfType(typeof(EventHandler)) as EventHandler[];
+        for (var i = 0 ; i < elements.Length; i++)
+        {
+            elements[i].Unregister();
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)

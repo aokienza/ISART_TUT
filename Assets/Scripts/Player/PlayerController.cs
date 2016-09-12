@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour,  EventHandler
+{
 
 
     public delegate void SheepEated(Transform value);
@@ -21,19 +22,13 @@ public class PlayerController : MonoBehaviour {
         get { return _hided; }
     }
 
-    void Awake()
-    {
-        Debug.Log("nez Bonhomme");
-    }
     // Use this for initialization
     void Start () {
 
         _transform = transform;
 
-        InputHandler.OnTap += Movement;
-        InputHandler.OnDoubleTap += Hide;
-
-        GameManager.instance.OnGameEnd += Uninstanciate;
+        InputHandler.instance.OnTap += Movement;
+        InputHandler.instance.OnDoubleTap += Hide;
 
         _hided = false;
     }
@@ -88,29 +83,20 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void Kill()
-    {
-        InputHandler.OnTap -= Movement;
-        InputHandler.OnDoubleTap -= Hide;
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Sheep") && other.transform.GetComponent<AI_Sheep>().isReady)
         {
             if(OnSheepEated != null)
                 OnSheepEated(other.transform);
+
             other.transform.GetComponent<AI_Sheep>().Death();
         }
     }
 
-    public void Death()
+    public void Unregister()
     {
-        OnPlayerDeath(_transform);
-    }
-
-    public void Uninstanciate()
-    {
-        GameManager.instance.OnGameEnd -= Uninstanciate;
+        InputHandler.instance.OnTap -= Movement;
+        InputHandler.instance.OnDoubleTap -= Hide;
     }
 }

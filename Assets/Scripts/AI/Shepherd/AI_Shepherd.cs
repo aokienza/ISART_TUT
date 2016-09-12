@@ -21,8 +21,6 @@ public class AI_Shepherd : AI_Entity
 
     #endregion
 
-    //NextIndexではindexを増大させて配列以外では0をセット
-
     #region AI movements
     void Move(Vector3 targetPos)
     {
@@ -117,27 +115,22 @@ public class AI_Shepherd : AI_Entity
         action();
     }
 
-    public override void Death()
-    {
-        base.Death();
-    }
-
     void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))
         {
-            other.transform.GetComponent<PlayerController>().Death();
+            LevelManager.instance.PlayerCought();
         }
     }
+    #endregion
 
-    public override void Uninstanciate()
+    public override void Unregister()
     {
+        base.Unregister();
         OnPlayerDetectedStart -= Attack;
         OnPlayerDetectedStay -= Attack;
         OnPlayerDetectedEnd -= Walk;
-        base.Uninstanciate();
     }
-    #endregion
 }
 
 

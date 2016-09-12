@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AI_Entity : MonoBehaviour {
+public class AI_Entity : MonoBehaviour, EventHandler
+{
 
     public delegate void DeathAction(Transform transform);
     public event DeathAction OnDeath;
@@ -51,8 +52,6 @@ public class AI_Entity : MonoBehaviour {
         _controller = GetComponent<CharacterController>();
         _transform = GetComponent<Transform>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
-
-        GameManager.instance.OnGameEnd += Uninstanciate;
     }
 
     void Update()
@@ -96,7 +95,6 @@ public class AI_Entity : MonoBehaviour {
     public virtual void Death()
     {
         OnDeath(transform);
-        Uninstanciate();
     }
     #endregion
 
@@ -129,13 +127,11 @@ public class AI_Entity : MonoBehaviour {
     {
         return (playerDistance() < detectionRange && !_player.GetComponent<PlayerController>().isHided);
     }
-
-
-    public virtual void Uninstanciate()
-    {
-        StopAllCoroutines();
-        Destroying = true;
-        GameManager.instance.OnGameEnd -= Uninstanciate;
-    }
     #endregion
+
+
+    public virtual void Unregister()
+    {
+
+    }
 }

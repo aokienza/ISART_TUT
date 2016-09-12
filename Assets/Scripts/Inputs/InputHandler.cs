@@ -4,20 +4,28 @@ using System.Collections.Generic;
 
 public class InputHandler : MonoBehaviour
 {
-
+    public static InputHandler instance = null;
     float ButtonCooler = 0.5f ;
     int ButtonCount = 0;
     bool tapped = false;
 
 
     public delegate void TapAction();
-    public static event TapAction OnTap;
+    public event TapAction OnTap;
 
     public delegate void DoubleTapAction();
-    public static event DoubleTapAction OnDoubleTap;
+    public event DoubleTapAction OnDoubleTap;
 
     public static List<Touch> touches;
 
+    void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+            Destroy(gameObject);
+    }
     public static bool isTouching()
     {
         List<Touch> touches = InputHandler.touches;
@@ -48,10 +56,14 @@ public class InputHandler : MonoBehaviour
         touches = InputHelper.GetTouches();
 
         if (isTouching())
-            OnTap();
+        {
+            if (OnTap != null)
+                OnTap();
+        }
 
         if (isDoubleTapping() || Input.GetKeyDown(KeyCode.F))
-            OnDoubleTap();
+            if (OnDoubleTap != null)
+                OnDoubleTap();
 
         if (ButtonCooler > 0)
             ButtonCooler -= Time.deltaTime;

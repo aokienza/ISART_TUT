@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : MonoBehaviour, EventHandler
 {
+
+    public static LevelManager instance = null;
+
     public delegate void PlayerSpawn(Transform value);
     public event PlayerSpawn OnPlayerSpawn;
 
@@ -26,17 +29,28 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+            Destroy(gameObject);
+
         GameManager.instance.OnGameStart    += NewGame;
         GameManager.instance.OnGamePause    += PauseGame;
         GameManager.instance.OnGameUnPause  += UnPauseGame;
         GameManager.instance.OnGameEnd      += EndGame;
     }
 
+    public void PlayerCought()
+    {
+        StartCoroutine(DeathAnim());
+    }
+
     void NewGame()
     {
         Time.timeScale = 1;
         playerRef = (GameObject)Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
-        playerRef.GetComponent<PlayerController>().OnPlayerDeath += PlayerDead;
+
         if (OnPlayerSpawn != null)
         {
             OnPlayerSpawn(playerRef.transform);
@@ -49,18 +63,7 @@ public class LevelManager : MonoBehaviour
 
     void EndGame()
     {
-        GameManager.instance.OnGameStart    -= NewGame;
-        GameManager.instance.OnGamePause    -= PauseGame;
-        GameManager.instance.OnGameUnPause  -= UnPauseGame;
-        GameManager.instance.OnGameEnd      -= EndGame;
-
         MainMenu.instance.OpenLevel("MainMenu");
-    }
-
-    void PlayerDead(Transform player)
-    {
-        playerRef.GetComponent<PlayerController>().OnPlayerDeath -= PlayerDead;
-        StartCoroutine(DeathAnim());
     }
 
     IEnumerator DeathAnim()
@@ -112,6 +115,7 @@ public class LevelManager : MonoBehaviour
     void OnSheepDeath(Transform transform)
     {
         AI_Sheep sheepScript = transform.GetComponent<AI_Sheep>();
+        sheepScript.OnDeath -= OnSheepDeath;
         if (_sheepList.Contains(sheepScript))
         {
             _sheepList.Remove(sheepScript);
@@ -134,4 +138,15 @@ public class LevelManager : MonoBehaviour
         Vector3 maxPosition = new Vector3(stage.transform.position.x + boundX, stage.transform.position.y + 0.5f, stage.transform.position.z + boundZ);
         return new Vector3(Random.Range(minPosition.x, maxPosition.x), stage.transform.position.y + 0.5f, Random.Range(minPosition.z, maxPosition.z));
     }
+
+
+
+    public void Unregister()
+    {
+        GameManager.instance.OnGameStart -= NewGame;
+        GameManager.instance.OnGamePause -= PauseGame;
+        GameManager.instance.OnGameUnPause -= UnPauseGame;
+        GameManager.instance.OnGameEnd -= EndGame;
+    }
 }
+

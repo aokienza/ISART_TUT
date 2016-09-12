@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TopCamera : MonoBehaviour {
+public class TopCamera : MonoBehaviour, EventHandler
+{
 
     public LevelManager _level;
     public Transform target;
@@ -31,5 +32,10 @@ public class TopCamera : MonoBehaviour {
         transform.position = Vector3.Lerp(new Vector3(target.position.x, target.position.y + height, target.position.z), 
                                             new Vector3(transform.position.x, target.position.y + height, transform.position.z), 
                                                 Time.deltaTime);
+    }
+
+    public void Unregister()
+    {
+        _level.OnPlayerSpawn -= SetTarget;
     }
 }
