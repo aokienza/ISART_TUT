@@ -173,7 +173,7 @@ public class LevelManager : MonoBehaviour, EventHandler
         UISheepCount.text = _sheepList.Count.ToString();
     }
 
-    Vector3 getRandomPositionOnStage()
+    public Vector3 getRandomPositionOnStage()
     {
         Mesh planeMesh = stage.GetComponent<MeshFilter>().mesh;
         Bounds bounds = planeMesh.bounds;
@@ -185,6 +185,17 @@ public class LevelManager : MonoBehaviour, EventHandler
         return new Vector3(Random.Range(minPosition.x, maxPosition.x), stage.transform.position.y + 0.5f, Random.Range(minPosition.z, maxPosition.z));
     }
 
+    public Vector3 getRandomPositionOnStageCloseTo(Vector3 position, float distance)
+    {
+        Mesh planeMesh = stage.GetComponent<MeshFilter>().mesh;
+        Bounds bounds = planeMesh.bounds;
+
+        float boundX = (stage.transform.localScale.x * bounds.size.x) * 0.3f;
+        float boundZ = (stage.transform.localScale.z * bounds.size.z) * 0.3f;
+        Vector3 minPosition = new Vector3(stage.transform.position.x - boundX, 0, stage.transform.position.z - boundZ);
+        Vector3 maxPosition = new Vector3(stage.transform.position.x + boundX, 0, stage.transform.position.z + boundZ);
+        return new Vector3(Random.Range(minPosition.x, maxPosition.x), stage.transform.position.y + 0.5f, Random.Range(minPosition.z, maxPosition.z));
+    }
 
     public void OnDestroy()
     {
