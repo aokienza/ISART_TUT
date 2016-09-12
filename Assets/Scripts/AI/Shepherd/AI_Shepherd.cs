@@ -33,7 +33,7 @@ public class AI_Shepherd : AI_Entity
 
         var newRotation = Quaternion.LookRotation(targetPos - _transform.position).eulerAngles;
         var angles = _transform.rotation.eulerAngles;
-        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
+        _transform.rotation = Quaternion.Euler(0, Mathf.SmoothDampAngle
                                             (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
     }
 
@@ -42,7 +42,7 @@ public class AI_Shepherd : AI_Entity
         var newRotation = Quaternion.LookRotation(_player.position - _transform.position).eulerAngles;
         newRotation.y = newRotation.y + Random.Range(90, 270);
         var angles = _transform.rotation.eulerAngles;
-        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
+        _transform.rotation = Quaternion.Euler(0, Mathf.SmoothDampAngle
                                                (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
     }
 
