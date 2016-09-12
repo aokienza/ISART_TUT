@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
             if(OnSheepEated != null)
                 OnSheepEated(other.transform);
 
-            _animator.SetBool("isEat", _hided);
+            _animator.SetTrigger("isEating");
             other.transform.GetComponent<AI_Sheep>().Death();
         }
     }

@@ -39,7 +39,11 @@ public class AI_Shepherd : AI_Entity
 
     void Walk()
     {
-
+        var newRotation = Quaternion.LookRotation(_player.position - _transform.position).eulerAngles;
+        newRotation.y = newRotation.y + Random.Range(90, 270);
+        var angles = _transform.rotation.eulerAngles;
+        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
+                                               (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
     }
 
     void Rescue()
@@ -105,8 +109,8 @@ public class AI_Shepherd : AI_Entity
         action = Walk;
 
         OnPlayerDetectedStart += Detection;
-        OnPlayerDetectedStay += Attack;
-        OnPlayerDetectedEnd += Walk;
+        OnPlayerDetectedStay += AttackAction;
+        OnPlayerDetectedEnd += WalkAction;
 
         layerMask = ~layerMask;
     }
@@ -140,8 +144,8 @@ public class AI_Shepherd : AI_Entity
     {
         base.Unregister();
         OnPlayerDetectedStart -= Detection;
-        OnPlayerDetectedStay -= Attack;
-        OnPlayerDetectedEnd -= Walk;
+        OnPlayerDetectedStay -= AttackAction;
+        OnPlayerDetectedEnd -= WalkAction;
     }
 }
 
