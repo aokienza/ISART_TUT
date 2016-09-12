@@ -19,9 +19,16 @@ public class AI_Sheep : AI_Entity, EventHandler
     bool isRotate = false;
     bool waiting = false;
 
+    ScoreManager score;
+
     public AudioClip[] SheepSound;
     #endregion
     #endregion
+
+    void Start()
+    {
+        score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+    }
 
     #region AI behaviour
     void CallHelp()
@@ -147,6 +154,7 @@ public class AI_Sheep : AI_Entity, EventHandler
     public override void Death()
     {
         _animator.SetBool("isDead", true);
+        score.AddScore();
         base.Death();
     }
 
