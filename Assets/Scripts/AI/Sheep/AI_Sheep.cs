@@ -46,7 +46,8 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Move()
     {
-		moveDirection = _transform.forward;
+        _animator.SetBool("isMoving", true);
+        moveDirection = _transform.forward;
 		moveDirection *= speed;
 		moveDirection.y += Physics.gravity.y * Time.deltaTime;
 		_controller.Move (moveDirection * Time.deltaTime);
@@ -85,6 +86,7 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Waittimer()
     {
+        _animator.SetBool("isMoving", false);
         waitTimer -= Time.deltaTime;
         if (waitTimer < 0)
         {
@@ -142,6 +144,11 @@ public class AI_Sheep : AI_Entity, EventHandler
     }
     #endregion
 
+    public override void Death()
+    {
+        _animator.SetBool("isDead", true);
+        base.Death();
+    }
 
     public override void Unregister()
     {
