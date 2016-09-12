@@ -43,6 +43,8 @@ public class LevelManager : MonoBehaviour, EventHandler
 
     public void PlayerCought()
     {
+        GameManager.instance.Pause(true);
+        playerRef.GetComponent<PlayerController>().enabled = false;
         StartCoroutine(DeathAnim());
     }
 
@@ -68,9 +70,6 @@ public class LevelManager : MonoBehaviour, EventHandler
 
     IEnumerator DeathAnim()
     {
-        playerRef.GetComponent<PlayerController>().enabled = false;
-        GameManager.instance.Pause(true);
-
         float timer = 0;
         while (timer < 2.0f)
         {

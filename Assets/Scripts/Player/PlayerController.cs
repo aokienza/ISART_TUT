@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
     public float velocity = 20;
 
     Transform _transform;
+    Animator _animator;
 
     bool _hided = false;
     public bool isHided
@@ -26,17 +27,11 @@ public class PlayerController : MonoBehaviour,  EventHandler
     void Start () {
 
         _transform = transform;
-
+        _animator = _transform.GetChild(0).GetComponent<Animator>();
         InputHandler.instance.OnTap += Movement;
         InputHandler.instance.OnDoubleTap += Hide;
-
+        InputHandler.instance.StopTap += Idle;
         _hided = false;
-    }
-
-
-	// Update is called once per frame
-	void Update () {
-
     }
 
     void Movement()
@@ -47,12 +42,21 @@ public class PlayerController : MonoBehaviour,  EventHandler
             float distance = 0;
             Vector3 direction = Vector3.zero;
             direction = (ray.GetPoint(distance) - _transform.position).normalized * Time.deltaTime;
-
+            Debug.Log(direction.magnitude * velocity);
+            _animator.SetFloat("speed", direction.magnitude * velocity);
             if (isMovementPossible(direction))
             {
+                Vector3 targetPos = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
+
+                transform.LookAt(targetPos);
                 transform.position = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
             }
         }
+    }
+
+    void Idle()
+    {
+        _animator.SetFloat("speed", 0);
     }
 
     bool isMovementPossible(Vector3 direction)
@@ -74,11 +78,13 @@ public class PlayerController : MonoBehaviour,  EventHandler
         if (_hided)
         {
             _transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
+            _animator.SetTrigger("isDigUp");
             _hided = false;
         }
         else
         {
             _transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
+            _animator.SetTrigger("isDigDown");
             _hided = true;
         }
     }
@@ -90,6 +96,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
             if(OnSheepEated != null)
                 OnSheepEated(other.transform);
 
+            _animator.SetBool("isEat", _hided);
             other.transform.GetComponent<AI_Sheep>().Death();
         }
     }
@@ -104,6 +111,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
     {
         InputHandler.instance.OnTap -= Movement;
         InputHandler.instance.OnDoubleTap -= Hide;
+        InputHandler.instance.StopTap -= Idle;
         Destroy(this);
     }
 }
