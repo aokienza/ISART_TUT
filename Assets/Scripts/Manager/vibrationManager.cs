@@ -35,7 +35,6 @@ public class vibrationManager : MonoBehaviour {
                 Vector3 PlayerVec = new Vector3(_Player.transform.position.x, 0, _Player.transform.position.z);
                 Vector3 shepherdVec = new Vector3(_Shepherd.transform.position.x, 0, _Shepherd.transform.position.z);
                 distance = Vector3.Distance(PlayerVec, shepherdVec);
-                Debug.Log(distance);
             if (distance > LEVEL1_range)
             {
                 StartCoroutine("Vibrate", "Level0");

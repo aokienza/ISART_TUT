@@ -118,7 +118,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
         while (counter < timer)
         {
             counter += Time.deltaTime;
-            transform.LookAt(endPos);
+            transform.LookAt(endPos, transform.up);
             transform.position = Vector3.Lerp(startPos, endPos, counter / timer);
             yield return null;
         }

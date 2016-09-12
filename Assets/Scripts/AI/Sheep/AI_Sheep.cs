@@ -67,15 +67,15 @@ public class AI_Sheep : AI_Entity, EventHandler
             var newRotation = Quaternion.LookRotation(_player.position - _transform.position * rot).eulerAngles;
             newRotation.y = newRotation.y + Random.Range(90, 270);
             var angles = _transform.rotation.eulerAngles;
-            _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
-                                                   (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
+            _transform.rotation = Quaternion.Euler(0, Mathf.SmoothDampAngle
+                                                   (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), 0);
         }
         else
         {
             var newRotation = Quaternion.LookRotation(_transform.position * rot).eulerAngles;
             var angles = _transform.rotation.eulerAngles;
-            _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
-                                                (angles.y, newRotation.y + 135, ref _Velocity, minTime, maxRotSpeed), angles.z);
+            _transform.rotation = Quaternion.Euler(0, Mathf.SmoothDampAngle
+                                                (angles.y, newRotation.y + 135, ref _Velocity, minTime, maxRotSpeed), 0);
         }
 
     }

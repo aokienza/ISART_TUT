@@ -20,7 +20,6 @@ public class AI_Shepherd : AI_Entity
     Action action;
 
     #endregion
-    public AudioClip OnCoughtSound;
     public AudioClip OnSpotSound;
 
     #region AI movements
@@ -131,8 +130,6 @@ public class AI_Shepherd : AI_Entity
     {
         if (other.transform.CompareTag("Player"))
         {
-            _audioSource.clip = OnCoughtSound;
-            _audioSource.Play();
             other.transform.GetComponent<PlayerController>().Cought();
             LevelManager.instance.PlayerCought();
             enabled = false;
