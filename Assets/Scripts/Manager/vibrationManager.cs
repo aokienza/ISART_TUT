@@ -24,24 +24,26 @@ public class vibrationManager : MonoBehaviour {
     
     void Update()
     {
-        //debug//VibrateHandler();
-        Vector3 PlayerVec = new Vector3(_Player.transform.position.x, 0, _Player.transform.position.z);
-        Vector3 shepherdVec = new Vector3(_Shepherd.transform.position.x, 0, _Shepherd.transform.position.z);
-        distance = Vector3.Distance(PlayerVec,shepherdVec);
-        Debug.Log(distance);
-        if(distance > LEVEL1_range)
+        if (_Player.GetComponent<PlayerController>().isHided)
         {
-            // 
+            //debug//VibrateHandler();
+            Vector3 PlayerVec = new Vector3(_Player.transform.position.x, 0, _Player.transform.position.z);
+            Vector3 shepherdVec = new Vector3(_Shepherd.transform.position.x, 0, _Shepherd.transform.position.z);
+            distance = Vector3.Distance(PlayerVec, shepherdVec);
+            Debug.Log(distance);
+            if (distance > LEVEL1_range)
+            {
+                // 
+            }
+            else if (LEVEL1_range >= distance && distance > LEVEL2_range)
+            {
+                StartCoroutine("Vibrate", 3.0f);
+            }
+            else if (LEVEL2_range >= distance)
+            {
+                StartCoroutine("Vibrate", 1.5f);
+            }
         }
-        else if(LEVEL1_range >= distance && distance > LEVEL2_range)
-        {
-            StartCoroutine("Vibrate",3.0f);
-        }
-        else if (LEVEL2_range >= distance )
-        {
-            StartCoroutine("Vibrate",1.5f);
-        }
-
     }
     IEnumerator Vibrate(float time)
     {
