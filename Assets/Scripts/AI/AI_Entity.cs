@@ -21,6 +21,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
     protected bool playerDetected = false;
     #endregion
 
+    protected Animator _animator;
     protected CharacterController _controller;
     protected AudioSource _audioSource;
     protected Transform _transform;
@@ -54,6 +55,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
         _controller = GetComponent<CharacterController>();
         _transform = GetComponent<Transform>();
         _audioSource = GetComponent<AudioSource>();
+        _animator = _transform.GetChild(0).GetComponent<Animator>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -116,6 +118,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
         while (counter < timer)
         {
             counter += Time.deltaTime;
+            transform.LookAt(endPos);
             transform.position = Vector3.Lerp(startPos, endPos, counter / timer);
             yield return null;
         }

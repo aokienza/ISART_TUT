@@ -19,9 +19,16 @@ public class AI_Sheep : AI_Entity, EventHandler
     bool isRotate = false;
     bool waiting = false;
 
+    ScoreManager score;
+
     public AudioClip[] SheepSound;
     #endregion
     #endregion
+
+    void Start()
+    {
+        score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+    }
 
     #region AI behaviour
     void CallHelp()
@@ -46,7 +53,8 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Move()
     {
-		moveDirection = _transform.forward;
+        _animator.SetBool("isMoving", true);
+        moveDirection = _transform.forward;
 		moveDirection *= speed;
 		moveDirection.y += Physics.gravity.y * Time.deltaTime;
 		_controller.Move (moveDirection * Time.deltaTime);
@@ -85,6 +93,7 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Waittimer()
     {
+        _animator.SetBool("isMoving", false);
         waitTimer -= Time.deltaTime;
         if (waitTimer < 0)
         {
@@ -142,6 +151,12 @@ public class AI_Sheep : AI_Entity, EventHandler
     }
     #endregion
 
+    public override void Death()
+    {
+        _animator.SetBool("isDead", true);
+        score.AddScore();
+        base.Death();
+    }
 
     public override void Unregister()
     {
