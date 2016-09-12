@@ -23,6 +23,8 @@ public class LevelManager : MonoBehaviour, EventHandler
     Text UISheepCount;
     Text UIShepherdCount;
     int shepherdNumber;
+    [SerializeField]
+    GameObject GameOverButton;
 
     public int minSheep = 5;
     public int maxSheep = 7;
@@ -52,6 +54,8 @@ public class LevelManager : MonoBehaviour, EventHandler
         shepherdNumber = 0;
         UISheepCount = GameObject.Find("UISheepCount").GetComponent<Text>();
         UIShepherdCount = GameObject.Find("UIShepherdCount").GetComponent<Text>();
+        GameOverButton = GameObject.Find("UIGameOver");
+        GameOverButton.SetActive(false);
     }
 
     public void PlayerCought()
@@ -77,8 +81,10 @@ public class LevelManager : MonoBehaviour, EventHandler
 
     void EndGame()
     {
+        score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>().score;
         scoreObject.RetrieveBestScore();
         scoreObject.SubmitScore(SceneManager.GetActiveScene().name,score);
+        GameOverButton.SetActive(true);
     }
 
     public void GoBackToMenu()
