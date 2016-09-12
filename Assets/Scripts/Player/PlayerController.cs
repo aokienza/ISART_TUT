@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
             float distance = 0;
             Vector3 direction = Vector3.zero;
             direction = (ray.GetPoint(distance) - _transform.position).normalized * Time.deltaTime;
-            Debug.Log(direction.magnitude * velocity);
+            //Debug.Log(direction.magnitude * velocity);
             _animator.SetFloat("speed", direction.magnitude * velocity);
             if (isMovementPossible(direction))
             {
