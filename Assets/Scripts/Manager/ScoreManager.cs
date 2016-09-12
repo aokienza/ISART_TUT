@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ScoreManager : MonoBehaviour {
 
-    [SerializeField]
-    int score;
+    
+    public int score;
     public int perScore = 100;
 
 	// Use this for initialization
