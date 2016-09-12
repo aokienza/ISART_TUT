@@ -19,6 +19,8 @@ public class AI_Sheep : AI_Entity, EventHandler
     bool isRotate = false;
     bool waiting = false;
 
+    float Jumppower = 10;
+
     ScoreManager score;
 
     public AudioClip[] SheepSound;
@@ -75,7 +77,8 @@ public class AI_Sheep : AI_Entity, EventHandler
             _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
                                                 (angles.y, newRotation.y + 135, ref _Velocity, minTime, maxRotSpeed), angles.z);
         }
-	}
+
+    }
 
     #endregion
 
