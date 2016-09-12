@@ -119,6 +119,7 @@ public class AI_Shepherd : AI_Entity
     {
         if (other.transform.CompareTag("Player"))
         {
+            other.transform.GetChild(0).GetComponent<Animator>().SetBool("isDie", true);
             LevelManager.instance.PlayerCought();
         }
     }

@@ -13,6 +13,9 @@ public class InputHandler : MonoBehaviour, EventHandler
     public delegate void TapAction();
     public event TapAction OnTap;
 
+    public delegate void UntapAction();
+    public event UntapAction StopTap;
+
     public delegate void DoubleTapAction();
     public event DoubleTapAction OnDoubleTap;
 
@@ -57,8 +60,15 @@ public class InputHandler : MonoBehaviour, EventHandler
 
         if (isTouching())
         {
+            tapped = true;
             if (OnTap != null)
                 OnTap();
+        }
+        else if (tapped && !isTouching())
+        {
+            tapped = false;
+            if (StopTap != null)
+                StopTap();
         }
 
         if (isDoubleTapping() || Input.GetKeyDown(KeyCode.F))

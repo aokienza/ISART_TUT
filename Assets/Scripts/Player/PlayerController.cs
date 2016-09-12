@@ -30,14 +30,8 @@ public class PlayerController : MonoBehaviour,  EventHandler
         _animator = _transform.GetChild(0).GetComponent<Animator>();
         InputHandler.instance.OnTap += Movement;
         InputHandler.instance.OnDoubleTap += Hide;
-
+        InputHandler.instance.StopTap += Idle;
         _hided = false;
-    }
-
-
-	// Update is called once per frame
-	void Update () {
-
     }
 
     void Movement()
@@ -53,13 +47,16 @@ public class PlayerController : MonoBehaviour,  EventHandler
             if (isMovementPossible(direction))
             {
                 Vector3 targetPos = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
-                //float targetRotation = transform.forward.y - targetPos.y;
 
                 transform.LookAt(targetPos);
                 transform.position = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
-               // transform.rotation = new Quaternion(new Vector3(transform.rotation.x, targetRotation, transform.rotation.z),);
             }
         }
+    }
+
+    void Idle()
+    {
+        _animator.SetFloat("speed", 0);
     }
 
     bool isMovementPossible(Vector3 direction)
@@ -107,7 +104,6 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     public void OnDestroy()
     {
-        _animator.SetBool("isDie", true);
         Unregister();
     }
 
@@ -115,6 +111,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
     {
         InputHandler.instance.OnTap -= Movement;
         InputHandler.instance.OnDoubleTap -= Hide;
+        InputHandler.instance.StopTap -= Idle;
         Destroy(this);
     }
 }
