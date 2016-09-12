@@ -85,11 +85,11 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.transform.CompareTag("Sheep"))
         {
-            other.transform.GetComponent<AI_Sheep>().Die();
+            other.transform.GetComponent<AI_Sheep>().Death();
         }
     }
 
-    public void Die()
+    public void Death()
     {
         Destroy(gameObject);
     }
