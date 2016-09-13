@@ -12,6 +12,7 @@ public class AI_Shepherd : AI_Entity
 
     Vector3 moveDirection;
     Vector3 rescuePosition;
+    Vector3 patrolPosition;
     #endregion
 
     #region delegate variable
@@ -20,7 +21,6 @@ public class AI_Shepherd : AI_Entity
     Action action;
 
     #endregion
-    public AudioClip OnCoughtSound;
     public AudioClip OnSpotSound;
 
     #region AI movements
@@ -33,37 +33,37 @@ public class AI_Shepherd : AI_Entity
 
         var newRotation = Quaternion.LookRotation(targetPos - _transform.position).eulerAngles;
         var angles = _transform.rotation.eulerAngles;
-        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
+        _transform.rotation = Quaternion.Euler(0, Mathf.SmoothDampAngle
                                             (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
+    }
+
+    void Detection()
+    {
+        _audioSource.clip = OnSpotSound;
+        _audioSource.Play();
     }
 
     void Walk()
     {
-        var newRotation = Quaternion.LookRotation(_player.position - _transform.position).eulerAngles;
-        newRotation.y = newRotation.y + Random.Range(90, 270);
-        var angles = _transform.rotation.eulerAngles;
-        _transform.rotation = Quaternion.Euler(angles.x, Mathf.SmoothDampAngle
-                                               (angles.y, newRotation.y, ref _Velocity, minTime, maxRotSpeed), angles.z);
+
+        if (Vector3.Distance(_transform.position, patrolPosition) > 5f)
+            Move(patrolPosition);
+        else
+            patrolPosition = LevelManager.instance.getRandomPositionOnStage();
     }
 
     void Rescue()
     {
         if (Vector3.Distance(_transform.position , rescuePosition) > 5f)
-        {
-            Move(rescuePosition);
-        }
+            Move(rescuePosition); 
         else
-        {
             WalkAction();
-        }
     }
 
     void Attack()
     {
         if (Vector3.Distance(_transform.position , _player.position) > 0f)
-        {
-            Move(_player.position);
-        }
+            Move(_player.position);   
     }
 
     #endregion
@@ -97,6 +97,7 @@ public class AI_Shepherd : AI_Entity
     void WalkAction()
     {
         action = Walk;
+        patrolPosition = LevelManager.instance.getRandomPositionOnStage();
     }
 
     #endregion
@@ -115,12 +116,6 @@ public class AI_Shepherd : AI_Entity
         layerMask = ~layerMask;
     }
 
-    void Detection()
-    {
-        _audioSource.clip = OnSpotSound;
-        _audioSource.Play();
-    }
-
     public override void onUpdate()
     {
         base.onUpdate();
@@ -131,8 +126,6 @@ public class AI_Shepherd : AI_Entity
     {
         if (other.transform.CompareTag("Player"))
         {
-            _audioSource.clip = OnCoughtSound;
-            _audioSource.Play();
             other.transform.GetComponent<PlayerController>().Cought();
             LevelManager.instance.PlayerCought();
             enabled = false;

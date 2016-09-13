@@ -33,6 +33,12 @@ public class GameManager : MonoBehaviour {
             OnGameStart(); 
     }
 
+    public void ReloadScene()
+    {
+        //EndGame();
+        LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void Pause(bool value)
     {
         if (value)

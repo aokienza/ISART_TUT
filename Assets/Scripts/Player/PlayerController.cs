@@ -51,14 +51,18 @@ public class PlayerController : MonoBehaviour,  EventHandler
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             float distance = 0;
             Vector3 direction = Vector3.zero;
-            direction = (ray.GetPoint(distance) - _transform.position).normalized * Time.deltaTime;
+            direction = (ray.GetPoint(distance) - _transform.position).normalized;
+
             _animator.SetFloat("speed", direction.magnitude * velocity);
+
             if (isMovementPossible(direction))
             {
-                Vector3 targetPos = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
+                Vector3 movement = new Vector3(direction.x, 0, direction.z) * velocity * 50;
+                movement = movement.normalized * velocity * 50 * Time.deltaTime;
 
+                Vector3 targetPos = _transform.position + new Vector3(movement.x, 0, movement.z) * Time.deltaTime;
                 transform.LookAt(targetPos);
-                transform.position = _transform.position + new Vector3(direction.x, 0, direction.z) * velocity * 50;
+                transform.position = targetPos;
             }
         }
     }
@@ -79,7 +83,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
     bool isMovementPossible(Vector3 direction)
     {
         RaycastHit hit;
-        if (Physics.Raycast(_transform.position, direction, out hit, velocity * 50, 1 << 8))
+        if (Physics.Raycast(_transform.position, direction, out hit, velocity * 50 * Time.deltaTime, 1 << 8))
         {
             if(hit.transform.CompareTag("Wall"))
             {

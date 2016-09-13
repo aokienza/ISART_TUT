@@ -19,12 +19,16 @@ public class LevelManager : MonoBehaviour, EventHandler
     public GameObject stage;
     public GameObject[] entrances;
 
-
     Text UISheepCount;
     Text UIShepherdCount;
+    Text UIIGScore;
     int shepherdNumber;
     [SerializeField]
     GameObject GameOverButton;
+
+
+    public AudioClip OnCoughtSound;
+    protected AudioSource _audioSource;
 
     public int minSheep = 5;
     public int maxSheep = 7;
@@ -50,16 +54,21 @@ public class LevelManager : MonoBehaviour, EventHandler
         GameManager.instance.OnGameUnPause  += UnPauseGame;
         GameManager.instance.OnGameEnd      += EndGame;
 
+        _audioSource = GetComponent<AudioSource>();
 
-        shepherdNumber = 0;
         UISheepCount = GameObject.Find("UISheepCount").GetComponent<Text>();
         UIShepherdCount = GameObject.Find("UIShepherdCount").GetComponent<Text>();
+        UIIGScore = GameObject.Find("UIIGScore").GetComponent<Text>();
         GameOverButton = GameObject.Find("UIGameOver");
+
         GameOverButton.SetActive(false);
     }
 
     public void PlayerCought()
     {
+        _audioSource.clip = OnCoughtSound;
+        _audioSource.Play();
+
         playerRef.GetComponent<PlayerController>().enabled = false;
         StartCoroutine(DeathAnim());
     }
@@ -68,6 +77,9 @@ public class LevelManager : MonoBehaviour, EventHandler
     {
         Time.timeScale = 1;
         playerRef = (GameObject)Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+
+        shepherdNumber = 0;
+        UIIGScore.text = "0";
 
         if (OnPlayerSpawn != null)
         {
@@ -147,32 +159,53 @@ public class LevelManager : MonoBehaviour, EventHandler
 
         if (_sheepList.Contains(sheepScript))
         {
+            score += 10;
             _sheepList.Remove(sheepScript);
         }
 
         if(_sheepList.Count <= 0)
         {
+            score += 40;
             NewWave();
         }
         sheepScript.Unregister();
         Destroy(sheepScript.gameObject);
 
+        UIIGScore.text = score.ToString();
         UISheepCount.text = _sheepList.Count.ToString();
         StartCoroutine(scoreObject.FontEffect(UISheepCount,89));
     }
 
-    Vector3 getRandomPositionOnStage()
+    public Vector3 getRandomPositionOnStage()
     {
         Mesh planeMesh = stage.GetComponent<MeshFilter>().mesh;
         Bounds bounds = planeMesh.bounds;
 
-        float boundX = (stage.transform.localScale.x * bounds.size.x) * 0.5f;
-        float boundZ = (stage.transform.localScale.z * bounds.size.z) * 0.5f;
-        Vector3 minPosition = new Vector3(stage.transform.position.x - boundX, stage.transform.position.y + 0.5f, stage.transform.position.z - boundZ);
-        Vector3 maxPosition = new Vector3(stage.transform.position.x + boundX, stage.transform.position.y + 0.5f, stage.transform.position.z + boundZ);
+        float boundX = (stage.transform.localScale.x * bounds.size.x) * 0.3f;
+        float boundZ = (stage.transform.localScale.z * bounds.size.z) * 0.3f;
+        Vector3 minPosition = new Vector3(stage.transform.position.x - boundX, 0, stage.transform.position.z - boundZ);
+        Vector3 maxPosition = new Vector3(stage.transform.position.x + boundX, 0, stage.transform.position.z + boundZ);
         return new Vector3(Random.Range(minPosition.x, maxPosition.x), stage.transform.position.y + 0.5f, Random.Range(minPosition.z, maxPosition.z));
     }
 
+    public Vector3 getRandomPositionOnStageCloseTo(Vector3 position, float distance)
+    {
+        Mesh planeMesh = stage.GetComponent<MeshFilter>().mesh;
+        Bounds bounds = planeMesh.bounds;
+
+        float boundX = (stage.transform.localScale.x * bounds.size.x) * 0.3f;
+        float boundZ = (stage.transform.localScale.z * bounds.size.z) * 0.3f;
+        Vector3 minPosition = new Vector3(stage.transform.position.x - boundX, 0, stage.transform.position.z - boundZ);
+        Vector3 maxPosition = new Vector3(stage.transform.position.x + boundX, 0, stage.transform.position.z + boundZ);
+
+
+        return new Vector3(Random.Range((position.x + minPosition.x), position.x + maxPosition.x), 
+            stage.transform.position.y + 0.5f, 
+                Random.Range(position.z + minPosition.z, position.z + maxPosition.z)
+                );
+
+
+    }
 
     public void OnDestroy()
     {
