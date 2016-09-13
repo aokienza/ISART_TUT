@@ -15,7 +15,7 @@ public class ScoreRecap : MonoBehaviour
     [SerializeField]
     Text[] highScoresTexts = new Text[15];
     #endregion
-
+    bool hasFinishedFont;
     [SerializeField]
     Text menuScoreEnd;
 
@@ -156,10 +156,17 @@ public class ScoreRecap : MonoBehaviour
 
     }
 
-    /*void UpdateMenuScore(int score)
+    public IEnumerator FontEffect(Text cible, int size)
     {
-        menuScoreEnd.text = score.ToString();
-    }*/
+        cible.fontSize = size;
+        yield return new WaitForSeconds(.01f);
+        if (cible.fontSize >60)
+        {
+            cible.fontSize--;
+            StartCoroutine(FontEffect(cible, cible.fontSize));
+        }
+    }
+
     #endregion
     public void ResetAllPrefs()
     {

@@ -134,7 +134,9 @@ public class LevelManager : MonoBehaviour, EventHandler
         GameObject nShepherd = Instantiate(shepherd, entrance.transform.position, Quaternion.identity) as GameObject;
         shepherdNumber++;
         UIShepherdCount.text = shepherdNumber.ToString();
+        StartCoroutine(scoreObject.FontEffect(UIShepherdCount,89));
         UISheepCount.text = _sheepList.Count.ToString();
+        StartCoroutine(scoreObject.FontEffect(UISheepCount,89));
         StartCoroutine(nShepherd.GetComponent<AI_Shepherd>().GetOnSpot(getRandomPositionOnStage()));
     }
 
@@ -156,6 +158,7 @@ public class LevelManager : MonoBehaviour, EventHandler
         Destroy(sheepScript.gameObject);
 
         UISheepCount.text = _sheepList.Count.ToString();
+        StartCoroutine(scoreObject.FontEffect(UISheepCount,89));
     }
 
     Vector3 getRandomPositionOnStage()
