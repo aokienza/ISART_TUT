@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
         get { return _hided; }
     }
 
+    public GameObject digEffect;
     // Use this for initialization
     void Start () {
         _audioSource = GetComponent<AudioSource>();
@@ -112,6 +113,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
             Transform ground = GameObject.FindWithTag("Ground").transform;
             _transform.position = new Vector3(_transform.position.x, ground.position.y + 0.2f, _transform.position.z);
             _animator.SetTrigger("isDigDown");
+            Instantiate(digEffect, gameObject.transform.position,Quaternion.Euler(180,transform.eulerAngles.y,-40));
             UIHideMask.color = new Color(255, 255, 255, 255);
             _hided = true;
         }
