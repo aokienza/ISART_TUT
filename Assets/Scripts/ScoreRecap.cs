@@ -67,7 +67,7 @@ public class ScoreRecap : MonoBehaviour
                 {
                     HighScore1 = score;
                     PlayerPrefs.SetInt("HighScore1", HighScore1);
-                    ScoreLV1.text = HighScore1.ToString();
+                    ScoreLV1.text = ("HIGH SCORE " + HighScore1.ToString());
                 }           
                 break;
             case ("Level02"):
@@ -75,7 +75,7 @@ public class ScoreRecap : MonoBehaviour
                 {
                     HighScore2 = score;
                     PlayerPrefs.SetInt("HighScore2", HighScore2);
-                    ScoreLV2.text = HighScore2.ToString();
+                    ScoreLV2.text = ("HIGH SCORE " +HighScore2.ToString());
                 }
                 break;
             case ("Level03"):
@@ -83,7 +83,7 @@ public class ScoreRecap : MonoBehaviour
                 {
                     HighScore3 = score;
                     PlayerPrefs.SetInt("HighScore3", HighScore3);
-                    ScoreLV3.text = HighScore3.ToString();
+                    ScoreLV3.text = ("HIGH SCORE " + HighScore3 .ToString());
                 }
                 break;
         }      
