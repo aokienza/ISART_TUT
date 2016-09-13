@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour, EventHandler
     public GameObject stage;
     public TopCamera _camera;
     public GameObject[] entrances;
+    bool soundPlayed;
 
     Text UISheepCount;
     Text UIShepherdCount;
@@ -29,6 +30,7 @@ public class LevelManager : MonoBehaviour, EventHandler
 
 
     public AudioClip OnCoughtSound;
+    public AudioClip Gloups;
     protected AudioSource _audioSource;
 
     bool hasLost = false;
@@ -40,6 +42,7 @@ public class LevelManager : MonoBehaviour, EventHandler
     GameObject playerRef;
     List <AI_Entity> _sheepList;
     public GameObject loadingScreen;
+    public GameObject UI;
 
     // Use this for initialization
 
@@ -51,7 +54,8 @@ public class LevelManager : MonoBehaviour, EventHandler
         else if (instance != this)
             Destroy(gameObject);
 
-        scoreObject = GameObject.Find("UI").GetComponent<ScoreRecap>();
+        UI = GameObject.Find("UI");
+        scoreObject = UI.GetComponent<ScoreRecap>();
         scoreObject.Manager = this;
 
         GameManager.instance.OnGameStart    += NewGame;
@@ -66,11 +70,12 @@ public class LevelManager : MonoBehaviour, EventHandler
         UISheepCount = GameObject.Find("UISheepCount").GetComponent<Text>();
         UIShepherdCount = GameObject.Find("UIShepherdCount").GetComponent<Text>();
         UIIGScore = GameObject.Find("UIIGScore").GetComponent<Text>();
-        GameOverButton = GameObject.Find("UIGameOver");
-        loadingScreen = GameObject.Find("LoadingScreen");
+        GameOverButton = UI.GetComponent<MainMenu>().GameOverButton;
+        loadingScreen = UI.GetComponent<MainMenu>().LoadingScreen;
 
         GameOverButton.SetActive(false);
         loadingScreen.SetActive(false);
+        UI.GetComponent<MainMenu>().INPUTS = GameObject.Find("[Manager]").GetComponent<InputHandler>();
     }
 
     public void PlayerCought()
@@ -80,7 +85,12 @@ public class LevelManager : MonoBehaviour, EventHandler
 
         hasLost = true;
         _audioSource.clip = OnCoughtSound;
-        _audioSource.Play();
+        if (!soundPlayed)
+        {
+            _audioSource.Play();
+            soundPlayed = true;
+        }
+        
 
         playerRef.GetComponent<PlayerController>().enabled = false;
         StartCoroutine(DeathAnim());
@@ -182,6 +192,9 @@ public class LevelManager : MonoBehaviour, EventHandler
             score += 200;
             NewWave();
         }
+        _audioSource.clip = Gloups;
+        _audioSource.Play();
+        Debug.Log("Played Gloups");
         sheepScript.Unregister();
         Destroy(sheepScript.gameObject);
 

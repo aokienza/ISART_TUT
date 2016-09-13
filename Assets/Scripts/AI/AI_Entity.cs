@@ -28,6 +28,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
     protected AudioSource _audioSource;
     protected Transform _transform;
     protected Transform _player;
+    protected GameObject _playerObject;
     protected float minTime = 0.1f;
 
     #region capacities variables
@@ -59,6 +60,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
         _audioSource = GetComponent<AudioSource>();
         _animator = _transform.GetChild(1).GetComponent<Animator>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _playerObject = GameObject.FindGameObjectWithTag("Player");
 
         _warningZone.transform.localScale = new Vector3(detectionRange*0.7f, detectionRange * 0.7f, 0)
 ;    }

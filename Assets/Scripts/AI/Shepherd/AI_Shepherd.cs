@@ -38,9 +38,13 @@ public class AI_Shepherd : AI_Entity
     }
 
     void Detection()
-    {
-        _audioSource.clip = OnSpotSound;
-        _audioSource.Play();
+    {        
+        if (!_playerObject.GetComponent<PlayerController>()._dead)
+        {
+            _audioSource.clip = OnSpotSound;
+            _audioSource.Play();
+        }
+        
     }
 
     void Walk()

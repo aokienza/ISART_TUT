@@ -26,7 +26,6 @@ public class AI_Sheep : AI_Entity, EventHandler
     float Jumppower = 100;
 
     public GameObject FXdeath;
-    ScoreManager score;
 
     public AudioClip[] SheepSound;
     #endregion
@@ -145,7 +144,6 @@ public class AI_Sheep : AI_Entity, EventHandler
         base.onStart();
         OnPlayerDetectedStart += CallHelp;
         OnPlayerDetectedStay += Flee;
-        score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
 
     void trySheepSound()
@@ -189,7 +187,6 @@ public class AI_Sheep : AI_Entity, EventHandler
     {
         _animator.SetBool("isDead", true);
         Instantiate(FXdeath, _transform.position, Quaternion.identity);
-        score.AddScore();
         base.Death();
     }
 

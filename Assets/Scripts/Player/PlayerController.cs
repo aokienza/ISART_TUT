@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
     public AudioClip moveSound;
 
-    bool _dead = false;
+    public bool _dead = false;
     bool _hided = false;
 
     public AudioClip onDeath;
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
            
     }
 
-    void Hide()
+    public void Hide()
     {
         if (_hided && !_dead)
         {
