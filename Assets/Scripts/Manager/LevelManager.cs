@@ -134,6 +134,7 @@ public class LevelManager : MonoBehaviour, EventHandler
     void NewWave()
     {
         GameObject entrance = entrances[Random.Range(0, 3)];
+        entrance.GetComponent<Entrance>().Use();
         int sheepNumber = Random.Range(minSheep, maxSheep);
         for(var i = 0; i < sheepNumber; i++)
         {
