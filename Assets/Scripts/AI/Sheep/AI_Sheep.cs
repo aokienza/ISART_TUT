@@ -16,12 +16,13 @@ public class AI_Sheep : AI_Entity, EventHandler
     float waitTimer = 1f;
     float dist;
     float fleeSpeed = 0;
-    float maxFleedSpeed = 0.5f;
+    float maxFleedSpeed = 1f;
     bool isRotate = false;
     bool waiting = false;
 
     float Jumppower = 10;
 
+    public GameObject FXdeath;
     ScoreManager score;
 
     public AudioClip[] SheepSound;
@@ -59,7 +60,7 @@ public class AI_Sheep : AI_Entity, EventHandler
     void Flee()
     {
         if (fleeSpeed < maxFleedSpeed)
-            fleeSpeed += 0.05f;
+            fleeSpeed += 0.075f;
 
         float y = _transform.position.y;
         Vector3 direction = _transform.position - _player.transform.position;
@@ -174,6 +175,7 @@ public class AI_Sheep : AI_Entity, EventHandler
     public override void Death()
     {
         _animator.SetBool("isDead", true);
+        Instantiate(FXdeath, _transform.position, Quaternion.identity);
         score.AddScore();
         base.Death();
     }
