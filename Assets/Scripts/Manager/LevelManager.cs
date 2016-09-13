@@ -95,7 +95,7 @@ public class LevelManager : MonoBehaviour, EventHandler
         NewWave();
     }
 
-    void EndGame()
+    public void EndGame()
     {
         scoreObject.RetrieveBestScore();
         scoreObject.SubmitScore(SceneManager.GetActiveScene().name,score);
@@ -115,7 +115,7 @@ public class LevelManager : MonoBehaviour, EventHandler
             timer += Time.unscaledDeltaTime;
             yield return null;
         }
-        EndGame();
+        
     }
 
     void PauseGame()
