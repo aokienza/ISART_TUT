@@ -55,8 +55,12 @@ public class ScoreRecap : MonoBehaviour
         HighScore1 = PlayerPrefs.GetInt("HighScore1");
         HighScore2 = PlayerPrefs.GetInt("HighScore2");
         HighScore3 = PlayerPrefs.GetInt("HighScore3");
+        ScoreLV1.text = ("HIGH SCORE " + HighScore1.ToString());
+        ScoreLV2.text = ("HIGH SCORE " + HighScore2.ToString());
+        ScoreLV3.text = ("HIGH SCORE " + HighScore3.ToString());
     }
  
+    
     public void SubmitScore(string levelName, int score)
     {
         
