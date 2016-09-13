@@ -60,7 +60,7 @@ public class AI_Entity : MonoBehaviour, EventHandler
         _animator = _transform.GetChild(1).GetComponent<Animator>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        _warningZone.transform.localScale = new Vector3(detectionRange*0.6f, detectionRange * 0.6f, 0)
+        _warningZone.transform.localScale = new Vector3(detectionRange*0.7f, detectionRange * 0.7f, 0)
 ;    }
 
     void Update()
