@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour,  EventHandler
 
         UIHideMask = GameObject.Find("UIHideMask").GetComponent<Image>();
 
+        Transform grass = GameObject.FindWithTag("Grass").transform;
+        _transform.position = new Vector3(_transform.position.x, grass.position.y + 0.2f, _transform.position.z);
+
         _hided = false;
     }
 
@@ -98,14 +101,16 @@ public class PlayerController : MonoBehaviour,  EventHandler
     {
         if (_hided && !_dead)
         {
-            _transform.position = new Vector3(_transform.position.x, 0.5f, _transform.position.z);
+            Transform grass = GameObject.FindWithTag("Grass").transform;
+            _transform.position = new Vector3(_transform.position.x, grass.position.y + 0.2f, _transform.position.z);
             _animator.SetTrigger("isDigUp");
             UIHideMask.color = new Color(255,255,255,0);
             _hided = false;
         }
         else if (!_hided && !_dead)
         {
-            _transform.position = new Vector3(_transform.position.x, -100.5f, _transform.position.z);
+            Transform ground = GameObject.FindWithTag("Ground").transform;
+            _transform.position = new Vector3(_transform.position.x, ground.position.y + 0.2f, _transform.position.z);
             _animator.SetTrigger("isDigDown");
             UIHideMask.color = new Color(255, 255, 255, 255);
             _hided = true;
