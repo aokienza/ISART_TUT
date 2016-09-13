@@ -33,6 +33,6 @@ public class Stone : MonoBehaviour {
 
     void setFloat()
     {
-        GameObject.Find("Player").GetComponent<PlayerController>().velocity = velocity;
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().velocity = velocity;
     }
 }
