@@ -56,10 +56,16 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Move()
     {
+        if (GameObject.FindWithTag("Player").GetComponent<PlayerController>().isHided)
+        {
+            _animator.SetBool("isMoving", false);
+            return;
+        }
         _animator.SetBool("isMoving", true);
         moveDirection = _transform.forward;
 		moveDirection *= speed;
 		moveDirection.y += Physics.gravity.y * Time.deltaTime;
+        Debug.Log("mdy : " + moveDirection.y);
 		_controller.Move (moveDirection * Time.deltaTime);
 
         if (isRotate)
