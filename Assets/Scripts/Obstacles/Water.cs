@@ -34,14 +34,13 @@ public class Water : MonoBehaviour {
         {
             float _speed = col.gameObject.GetComponent<AI_Sheep>().speed;
             _speed = _speed / 2;
-            col.gameObject.GetComponent<AI_Sheep>().speed = _speed; 
+            col.gameObject.GetComponent<AI_Sheep>().speed = _speed;
         }
         if (col.transform.CompareTag("Shepherd"))
         {
             float _speed = col.gameObject.GetComponent<AI_Shepherd>().speed;
             _speed = _speed / 2;
             col.gameObject.GetComponent<AI_Shepherd>().speed = _speed;
-
         }
     }
     void OnTriggerExit(Collider col)
