@@ -13,9 +13,10 @@ public class AI_Sheep : AI_Entity, EventHandler
     int index;
     int rot = 1;
     float rotTimer = 5f;
-    float waitTimer = 2f;
+    float waitTimer = 1f;
     float dist;
-
+    float fleeSpeed = 0;
+    float maxFleedSpeed = 0.5f;
     bool isRotate = false;
     bool waiting = false;
 
@@ -29,13 +30,14 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Start()
     {
-        base.onStart();
-        score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        onStart();
     }
 
     #region AI behaviour
     void CallHelp()
     {
+
+        fleeSpeed = 0;
         GameObject[] shepherds = GameObject.FindGameObjectsWithTag("Shepherd");
         float shorterDistance = -1;
         GameObject shorterShepherds = null;
@@ -52,6 +54,20 @@ public class AI_Sheep : AI_Entity, EventHandler
         {
             shorterShepherds.GetComponent<AI_Shepherd>().RescueAction(transform);
         }
+    }
+
+    void Flee()
+    {
+        if (fleeSpeed < maxFleedSpeed)
+            fleeSpeed += 0.05f;
+
+        float y = _transform.position.y;
+        Vector3 direction = _transform.position - _player.transform.position;
+        Vector3 targetPos = _transform.position + new Vector3(direction.x, 0, direction.z) * fleeSpeed * Time.deltaTime;
+        Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = rotation;
+        _controller.Move(direction *  Time.deltaTime * fleeSpeed);
+        _transform.position = new Vector3(_transform.position.x, y, _transform.position.z);
     }
 
     void Move()
@@ -110,9 +126,9 @@ public class AI_Sheep : AI_Entity, EventHandler
     public override void onStart()
     {
         base.onStart();
-
         OnPlayerDetectedStart += CallHelp;
-
+        OnPlayerDetectedStay += Flee;
+        score = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
     }
 
     void trySheepSound()
@@ -166,5 +182,6 @@ public class AI_Sheep : AI_Entity, EventHandler
     {
         base.Unregister();
         OnPlayerDetectedStart -= CallHelp;
+        OnPlayerDetectedStay -= Flee;
     }
 }
