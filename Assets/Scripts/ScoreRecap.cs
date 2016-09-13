@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ScoreRecap : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class ScoreRecap : MonoBehaviour
     Sprite WinScreen;
     [SerializeField]
     Sprite LoseScreen;
+    [SerializeField]
+    Image backGroundScore;
 
 
     public LevelManager Manager;
@@ -64,11 +67,44 @@ public class ScoreRecap : MonoBehaviour
         ScoreLV3.text = ("HIGH SCORE " + HighScore3.ToString());
     }
  
-    public void ScoreScreen()
+    public void ScoreScreen(int score, bool victory, string levelName)
     {
+        if (victory)
+        {
+            Debug.Log("Victory" + victory);
+            menuScoreEnd.text = score.ToString();
+            menuScoreEndHigh.text = score.ToString();
+            backGroundScore.sprite = WinScreen;
 
+        }
+        else if (!victory)
+        {
+            Debug.Log("Victory" + victory);
+            menuScoreEnd.text = score.ToString();
+            backGroundScore.sprite = LoseScreen;
+            switch (levelName)
+            {
+                case ("Level01"):
+                    menuScoreEndHigh.text = HighScore1.ToString();
+                    break;
+                case ("Level02"):
+                    menuScoreEndHigh.text = HighScore2.ToString();
+                    break;
+                case ("Level03"):
+                    menuScoreEndHigh.text = HighScore3.ToString();
+                    break;
+            }
+
+
+        }
+        
     }
 
+    public void CallScores(int score)
+    {
+        RetrieveBestScore();
+        SubmitScore(SceneManager.GetActiveScene().name, score);
+    }
 
     public void SubmitScore(string levelName, int score)
     {
@@ -81,7 +117,12 @@ public class ScoreRecap : MonoBehaviour
                     HighScore1 = score;
                     PlayerPrefs.SetInt("HighScore1", HighScore1);
                     ScoreLV1.text = ("HIGH SCORE " + HighScore1.ToString());
-                }           
+                    ScoreScreen(HighScore1, true, levelName);
+                }
+                else
+                {
+                    ScoreScreen(score, false, levelName);
+                }
                 break;
             case ("Level02"):
                 if (score > HighScore2)
@@ -89,6 +130,11 @@ public class ScoreRecap : MonoBehaviour
                     HighScore2 = score;
                     PlayerPrefs.SetInt("HighScore2", HighScore2);
                     ScoreLV2.text = ("HIGH SCORE " +HighScore2.ToString());
+                    ScoreScreen(HighScore2, true, levelName);
+                }
+                else
+                {
+                    ScoreScreen(score, false, levelName);
                 }
                 break;
             case ("Level03"):
@@ -97,6 +143,11 @@ public class ScoreRecap : MonoBehaviour
                     HighScore3 = score;
                     PlayerPrefs.SetInt("HighScore3", HighScore3);
                     ScoreLV3.text = ("HIGH SCORE " + HighScore3 .ToString());
+                    ScoreScreen(HighScore3, true, levelName);
+                }
+                else
+                {
+                    ScoreScreen(score, false, levelName);
                 }
                 break;
         }      

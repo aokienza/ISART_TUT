@@ -45,7 +45,7 @@ public class AI_Shepherd : AI_Entity
 
     void Walk()
     {
-
+        _animator.SetBool("isMoving", true);
         if (Vector3.Distance(_transform.position, patrolPosition) > 5f)
             Move(patrolPosition);
         else
@@ -54,6 +54,7 @@ public class AI_Shepherd : AI_Entity
 
     void Rescue()
     {
+        _animator.SetBool("isMoving", true);
         if (Vector3.Distance(_transform.position , rescuePosition) > 5f)
             Move(rescuePosition); 
         else
@@ -126,6 +127,8 @@ public class AI_Shepherd : AI_Entity
     {
         if (other.transform.CompareTag("Player") && isReady)
         {
+            _animator.SetTrigger("isAttaking");
+            _animator.SetBool("isMoving", false);
             other.transform.GetComponent<PlayerController>().Cought();
             LevelManager.instance.PlayerCought();
             enabled = false;
