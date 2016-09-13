@@ -8,6 +8,8 @@ public class TopCamera : MonoBehaviour, EventHandler
     Transform target;
 
     public float height = 20f;
+
+    Vector3 offset;
 	// Use this for initialization
 	void Awake ()
     {
@@ -34,6 +36,27 @@ public class TopCamera : MonoBehaviour, EventHandler
         transform.position = Vector3.Lerp(new Vector3(target.position.x, target.position.y + height, target.position.z), 
                                             new Vector3(transform.position.x, target.position.y + height, transform.position.z), 
                                                 Time.deltaTime);
+    }
+
+
+    public void Shake(float intensity, float time)
+    {
+        StartCoroutine(doShake(intensity, time));
+    }
+
+    IEnumerator doShake(float intensity, float time)
+    {
+        float timer = 0;
+        Quaternion rot = transform.rotation;
+        while (timer < time)
+        {
+            offset = Random.insideUnitSphere * intensity;
+            transform.rotation = Quaternion.Euler(new Vector3(90 + offset.x, rot.y + offset.y, rot.z + offset.z));
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        transform.rotation = rot;
+        offset = Vector3.zero;
     }
 
 

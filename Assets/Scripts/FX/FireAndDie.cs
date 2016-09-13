@@ -7,10 +7,19 @@ public class FireAndDie : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         _animator = transform.GetComponent<Animator>();
+        AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
+        float length = state.length;
+        StartCoroutine(Destroy(length));
     }
 	
 	// Update is called once per frame
-	void Update () {
-	
+	IEnumerator Destroy(float length) {
+        float timer = 0;
+        while (timer < length)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(gameObject);
 	}
 }

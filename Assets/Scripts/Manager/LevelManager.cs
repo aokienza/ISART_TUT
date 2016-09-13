@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour, EventHandler
     public GameObject shepherd;
     public GameObject sheep;
     public GameObject stage;
+    public TopCamera _camera;
     public GameObject[] entrances;
 
     Text UISheepCount;
@@ -57,6 +58,8 @@ public class LevelManager : MonoBehaviour, EventHandler
 
         _audioSource = GetComponent<AudioSource>();
 
+        _camera = (TopCamera)FindObjectOfType(typeof(TopCamera));
+
         UISheepCount = GameObject.Find("UISheepCount").GetComponent<Text>();
         UIShepherdCount = GameObject.Find("UIShepherdCount").GetComponent<Text>();
         UIIGScore = GameObject.Find("UIIGScore").GetComponent<Text>();
@@ -92,7 +95,7 @@ public class LevelManager : MonoBehaviour, EventHandler
         NewWave();
     }
 
-    void EndGame()
+    public void EndGame()
     {
         scoreObject.RetrieveBestScore();
         scoreObject.SubmitScore(SceneManager.GetActiveScene().name,score);
@@ -112,7 +115,7 @@ public class LevelManager : MonoBehaviour, EventHandler
             timer += Time.unscaledDeltaTime;
             yield return null;
         }
-        EndGame();
+        
     }
 
     void PauseGame()
@@ -171,6 +174,9 @@ public class LevelManager : MonoBehaviour, EventHandler
         }
         sheepScript.Unregister();
         Destroy(sheepScript.gameObject);
+
+        Vibration.Vibrate(30);
+        _camera.Shake(2f, 0.3f);
 
         UIIGScore.text = score.ToString();
         StartCoroutine(scoreObject.FontEffect(UIIGScore, 89));
