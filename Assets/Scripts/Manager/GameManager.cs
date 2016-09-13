@@ -38,8 +38,9 @@ public class GameManager : MonoBehaviour {
     public void ReloadScene()
     {
         //EndGame();
-
+        LoadingScreen.SetActive(true);
         LoadScene(SceneManager.GetActiveScene().name);
+
     }
 
     public void Pause(bool value)
