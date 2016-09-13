@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour,  EventHandler
     bool isMovementPossible(Vector3 direction)
     {
         RaycastHit hit;
-        if (Physics.Raycast(_transform.position, direction, out hit, velocity * 50 * Time.deltaTime, 1 << 8))
+        if (Physics.Raycast(_transform.position, direction, out hit, velocity * 50, 1 << 8))
         {
             if(hit.transform.CompareTag("Wall"))
             {
