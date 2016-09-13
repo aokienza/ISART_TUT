@@ -70,6 +70,7 @@ public class ScoreRecap : MonoBehaviour
     {
         if (victory)
         {
+            Debug.Log("Victory" + victory);
             menuScoreEnd.text = score.ToString();
             menuScoreEndHigh.text = score.ToString();
             backGroundScore.sprite = WinScreen;
@@ -77,6 +78,7 @@ public class ScoreRecap : MonoBehaviour
         }
         else if (!victory)
         {
+            Debug.Log("Victory" + victory);
             menuScoreEnd.text = score.ToString();
             backGroundScore.sprite = LoseScreen;
             switch (levelName)
@@ -97,7 +99,10 @@ public class ScoreRecap : MonoBehaviour
         
     }
 
-
+    public void CallScores()
+    {
+        Manager.EndGame();
+    }
     public void SubmitScore(string levelName, int score)
     {
         
