@@ -79,7 +79,7 @@ public class AI_Sheep : AI_Entity, EventHandler
         _animator.SetBool("isMoving", true);
         moveDirection = _transform.forward;
 		moveDirection *= speed;
-<<<<<<< HEAD
+
         if (GameObject.FindWithTag("Player").GetComponent<PlayerController>().isHided || waiting)
         {
             _animator.SetBool("isMoving", false);
@@ -89,10 +89,9 @@ public class AI_Sheep : AI_Entity, EventHandler
         moveDirection.y += gravity * 70 * Time.deltaTime;
 
         _controller.Move (moveDirection * Time.deltaTime);
-=======
+
 		moveDirection.y += Physics.gravity.y * Time.deltaTime;
 		_controller.Move (moveDirection * Time.deltaTime);
->>>>>>> adcb1f6d3dcef4e71ed7f3657d1d28b81d03f2c6
 
         if (isRotate)
         {
