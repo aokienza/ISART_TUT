@@ -20,7 +20,10 @@ public class AI_Sheep : AI_Entity, EventHandler
     bool isRotate = false;
     bool waiting = false;
 
-    float Jumppower = 10;
+    float gravity = -9.8f;
+
+    public bool isJumping = false;
+    float Jumppower = 100;
 
     public GameObject FXdeath;
     ScoreManager score;
@@ -73,14 +76,20 @@ public class AI_Sheep : AI_Entity, EventHandler
 
     void Move()
     {
-        if (GameObject.FindWithTag("Player").GetComponent<PlayerController>().isHided)
-        {
-            _animator.SetBool("isMoving", false);
-            return;
-        }
         _animator.SetBool("isMoving", true);
         moveDirection = _transform.forward;
 		moveDirection *= speed;
+
+        if (GameObject.FindWithTag("Player").GetComponent<PlayerController>().isHided || waiting)
+        {
+            _animator.SetBool("isMoving", false);
+            moveDirection.x = 0;
+            moveDirection.z = 0;
+        }
+        moveDirection.y += gravity * 70 * Time.deltaTime;
+
+        _controller.Move (moveDirection * Time.deltaTime);
+
 		moveDirection.y += Physics.gravity.y * Time.deltaTime;
 		_controller.Move (moveDirection * Time.deltaTime);
 
@@ -100,7 +109,9 @@ public class AI_Sheep : AI_Entity, EventHandler
                                                 (angles.y, newRotation.y + 135, ref _Velocity, minTime, maxRotSpeed), 0);
         }
 
+ 
     }
+   
 
     #endregion
 
@@ -157,12 +168,9 @@ public class AI_Sheep : AI_Entity, EventHandler
         base.onUpdate();
         trySheepSound();
         Rottimer();
+        Move();
 
-        if (!waiting)
-        {
-            Move();
-        }
-        else
+        if (waiting)
         {
             Waittimer();
         }

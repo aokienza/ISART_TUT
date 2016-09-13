@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     public delegate void GameEnd();
     public event GameEnd OnGameEnd;
 
+    public GameObject LoadingScreen;
+
     protected static bool UISpawned = false;
     void Awake()
     {
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour {
     public void ReloadScene()
     {
         //EndGame();
+
         LoadScene(SceneManager.GetActiveScene().name);
     }
 

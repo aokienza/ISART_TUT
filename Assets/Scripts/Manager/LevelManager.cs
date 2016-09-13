@@ -39,6 +39,7 @@ public class LevelManager : MonoBehaviour, EventHandler
     public int score;
     GameObject playerRef;
     List <AI_Entity> _sheepList;
+    public GameObject loadingScreen;
 
     // Use this for initialization
 
@@ -66,8 +67,10 @@ public class LevelManager : MonoBehaviour, EventHandler
         UIShepherdCount = GameObject.Find("UIShepherdCount").GetComponent<Text>();
         UIIGScore = GameObject.Find("UIIGScore").GetComponent<Text>();
         GameOverButton = GameObject.Find("UIGameOver");
+        loadingScreen = GameObject.Find("LoadingScreen");
 
         GameOverButton.SetActive(false);
+        loadingScreen.SetActive(false);
     }
 
     public void PlayerCought()
