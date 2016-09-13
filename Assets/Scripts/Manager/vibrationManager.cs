@@ -23,15 +23,15 @@ public class vibrationManager : MonoBehaviour {
         //if (!SystemInfo.supportsVibration) Destroy(gameObject);
         _Player = GameObject.FindWithTag("Player");
         _Shepherd = GameObject.FindWithTag("Shepherd");
+        Feedback();
     }
 
     int debugint = 1;
 
-    void Update()
+    void Feedback()
     {
         if (_Player.GetComponent<PlayerController>().isHided)
             {
-                //debug//VibrateHandler();
                 Vector3 PlayerVec = new Vector3(_Player.transform.position.x, 0, _Player.transform.position.z);
                 Vector3 shepherdVec = new Vector3(_Shepherd.transform.position.x, 0, _Shepherd.transform.position.z);
                 distance = Vector3.Distance(PlayerVec, shepherdVec);
@@ -60,7 +60,11 @@ public class vibrationManager : MonoBehaviour {
                 StartCoroutine("Vibrate", "Level5");
             }
         }
+        else
+        {
+            StartCoroutine("Vibrate", "Nope");
         }
+    }
     
     IEnumerator Vibrate(string level)
     {
@@ -69,9 +73,9 @@ public class vibrationManager : MonoBehaviour {
             if (isRunning) yield break;
             isRunning = true;
             VibrateHandler();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(1.2f);
             VibrateHandler();
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(1.2f);
             isRunning = false;
         }
         if (level == "Level1")
@@ -79,9 +83,9 @@ public class vibrationManager : MonoBehaviour {
             if (isRunning) yield break;
             isRunning = true;
             VibrateHandler();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(1.0f);
             VibrateHandler();
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(1.0f);
             isRunning = false;
         }
         if (level == "Level2")
@@ -89,9 +93,9 @@ public class vibrationManager : MonoBehaviour {
             if (isRunning) yield break;
             isRunning = true;
             VibrateHandler();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.8f);
             VibrateHandler();
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(0.8f);
             isRunning = false;
         }
         if (level == "Level3")
@@ -99,9 +103,9 @@ public class vibrationManager : MonoBehaviour {
             if (isRunning) yield break;
             isRunning = true;
             VibrateHandler();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.6f);
             VibrateHandler();
-            yield return new WaitForSeconds(0.9f);
+            yield return new WaitForSeconds(0.6f);
             isRunning = false;
         }
         if (level == "Level4")
@@ -109,9 +113,9 @@ public class vibrationManager : MonoBehaviour {
             if (isRunning) yield break;
             isRunning = true;
             VibrateHandler();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.4f);
             VibrateHandler();
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.4f);
             isRunning = false;
         }
         if (level == "Level5")
@@ -119,11 +123,16 @@ public class vibrationManager : MonoBehaviour {
             if (isRunning) yield break;
             isRunning = true;
             VibrateHandler();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
             VibrateHandler();
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.2f);
             isRunning = false;
         }
+        if(level == "Nope")
+        {
+            yield return new WaitForSeconds(2f);
+        }
+        Feedback();
     }
   
 
