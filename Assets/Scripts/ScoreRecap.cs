@@ -15,14 +15,18 @@ public class ScoreRecap : MonoBehaviour
     [SerializeField]
     Text[] highScoresTexts = new Text[15];
     #endregion
-
+    bool hasFinishedFont;
     [SerializeField]
     Text menuScoreEnd;
+
+    public LevelManager Manager;
 
     string[,] PlayerName = new string[3,5];
 
     [SerializeField] // Future feature, sauvegarde de score multiple
     Dictionary<string, int[]> bestScore = new Dictionary<string, int[]>();
+
+
 
     void Awake()
     {
@@ -64,6 +68,7 @@ public class ScoreRecap : MonoBehaviour
         {
             if (bestScore[levelName][i] < score)
             {
+                menuScoreEnd.text = ("YOUR SCORE IS : " + score);
                 InsertScoreInBestScores(bestScore[levelName], score, i);
                 UpdateHighScoresMenu(levelName, score, i);
                 break;
@@ -76,7 +81,7 @@ public class ScoreRecap : MonoBehaviour
         }
         PlayerPrefs.Save();
     }
-
+    
  
     void InsertScoreInBestScores(int[] tab, int bestScore, int index)
     {
@@ -156,10 +161,17 @@ public class ScoreRecap : MonoBehaviour
 
     }
 
-    /*void UpdateMenuScore(int score)
+    public IEnumerator FontEffect(Text cible, int size)
     {
-        menuScoreEnd.text = score.ToString();
-    }*/
+        cible.fontSize = size;
+        yield return new WaitForSeconds(.01f);
+        if (cible.fontSize >60)
+        {
+            cible.fontSize--;
+            StartCoroutine(FontEffect(cible, cible.fontSize));
+        }
+    }
+
     #endregion
     public void ResetAllPrefs()
     {
