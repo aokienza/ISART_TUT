@@ -28,6 +28,10 @@ public class ScoreRecap : MonoBehaviour
     Text menuScoreEnd;
     [SerializeField]
     Text menuScoreEndHigh;
+    [SerializeField]
+    Sprite WinScreen;
+    [SerializeField]
+    Sprite LoseScreen;
 
 
     public LevelManager Manager;
@@ -60,7 +64,12 @@ public class ScoreRecap : MonoBehaviour
         ScoreLV3.text = ("HIGH SCORE " + HighScore3.ToString());
     }
  
-    
+    public void ScoreScreen()
+    {
+
+    }
+
+
     public void SubmitScore(string levelName, int score)
     {
         
