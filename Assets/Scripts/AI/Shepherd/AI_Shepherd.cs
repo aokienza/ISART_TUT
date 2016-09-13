@@ -124,7 +124,7 @@ public class AI_Shepherd : AI_Entity
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Player"))
+        if (other.transform.CompareTag("Player") && isReady)
         {
             other.transform.GetComponent<PlayerController>().Cought();
             LevelManager.instance.PlayerCought();

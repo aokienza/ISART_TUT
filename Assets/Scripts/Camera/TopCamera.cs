@@ -4,12 +4,14 @@ using System.Collections;
 public class TopCamera : MonoBehaviour, EventHandler
 {
 
-    public LevelManager _level;
-    public Transform target;
+    LevelManager _level;
+    Transform target;
+
     public float height = 20f;
 	// Use this for initialization
 	void Awake ()
     {
+        _level = (LevelManager)FindObjectOfType(typeof(LevelManager));
         _level.OnPlayerSpawn += SetTarget;
     }
 	
