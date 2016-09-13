@@ -24,7 +24,7 @@ public class Bush : MonoBehaviour {
         }
         if (col.transform.CompareTag("Sheep"))
         {
-            col.gameObject.GetComponent<AI_Sheep>().Jump();
+
         }
         if (col.transform.CompareTag("Shepherd"))
         {
