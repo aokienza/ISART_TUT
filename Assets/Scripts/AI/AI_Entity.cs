@@ -21,6 +21,8 @@ public class AI_Entity : MonoBehaviour, EventHandler
     protected bool playerDetected = false;
     #endregion
 
+    Transform _warningZone;
+
     protected Animator _animator;
     protected CharacterController _controller;
     protected AudioSource _audioSource;
@@ -51,13 +53,15 @@ public class AI_Entity : MonoBehaviour, EventHandler
 
     public virtual void onStart()
     {
-
+        _warningZone = transform.GetChild(0).GetComponent<Transform>();
         _controller = GetComponent<CharacterController>();
         _transform = GetComponent<Transform>();
         _audioSource = GetComponent<AudioSource>();
-        _animator = _transform.GetChild(0).GetComponent<Animator>();
+        _animator = _transform.GetChild(1).GetComponent<Animator>();
         _player = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+
+        _warningZone.transform.localScale = new Vector3(detectionRange*0.6f, detectionRange * 0.6f, 0)
+;    }
 
     void Update()
     {
