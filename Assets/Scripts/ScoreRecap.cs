@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ScoreRecap : MonoBehaviour
 {
@@ -99,10 +100,12 @@ public class ScoreRecap : MonoBehaviour
         
     }
 
-    public void CallScores()
+    public void CallScores(int score)
     {
-        Manager.EndGame();
+        RetrieveBestScore();
+        SubmitScore(SceneManager.GetActiveScene().name, score);
     }
+
     public void SubmitScore(string levelName, int score)
     {
         

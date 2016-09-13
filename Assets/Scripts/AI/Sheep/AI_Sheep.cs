@@ -82,7 +82,6 @@ public class AI_Sheep : AI_Entity, EventHandler
         moveDirection = _transform.forward;
 		moveDirection *= speed;
 		moveDirection.y += Physics.gravity.y * Time.deltaTime;
-        Debug.Log("mdy : " + moveDirection.y);
 		_controller.Move (moveDirection * Time.deltaTime);
 
         if (isRotate)

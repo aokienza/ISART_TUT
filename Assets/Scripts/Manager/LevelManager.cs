@@ -31,6 +31,8 @@ public class LevelManager : MonoBehaviour, EventHandler
     public AudioClip OnCoughtSound;
     protected AudioSource _audioSource;
 
+    bool hasLost = false;
+
     public int minSheep = 5;
     public int maxSheep = 7;
     ScoreRecap scoreObject;
@@ -70,6 +72,10 @@ public class LevelManager : MonoBehaviour, EventHandler
 
     public void PlayerCought()
     {
+        if (hasLost)
+            return;
+
+        hasLost = true;
         _audioSource.clip = OnCoughtSound;
         _audioSource.Play();
 
@@ -79,6 +85,7 @@ public class LevelManager : MonoBehaviour, EventHandler
 
     void NewGame()
     {
+        hasLost = false;
         Time.timeScale = 1;
         playerRef = (GameObject)Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
 
@@ -95,11 +102,11 @@ public class LevelManager : MonoBehaviour, EventHandler
         NewWave();
     }
 
-    public void EndGame()
+    void EndGame()
     {
-        scoreObject.RetrieveBestScore();
-        scoreObject.SubmitScore(SceneManager.GetActiveScene().name,score);
+        hasLost = true;
         GameOverButton.SetActive(true);
+        scoreObject.CallScores(score);
     }
 
     public void GoBackToMenu()
@@ -115,7 +122,7 @@ public class LevelManager : MonoBehaviour, EventHandler
             timer += Time.unscaledDeltaTime;
             yield return null;
         }
-        
+        EndGame();
     }
 
     void PauseGame()
