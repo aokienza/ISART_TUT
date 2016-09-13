@@ -48,6 +48,7 @@ public class LevelManager : MonoBehaviour, EventHandler
             Destroy(gameObject);
 
         scoreObject = GameObject.Find("UI").GetComponent<ScoreRecap>();
+        scoreObject.Manager = this;
 
         GameManager.instance.OnGameStart    += NewGame;
         GameManager.instance.OnGamePause    += PauseGame;
@@ -159,19 +160,20 @@ public class LevelManager : MonoBehaviour, EventHandler
 
         if (_sheepList.Contains(sheepScript))
         {
-            score += 10;
+            score += 100;
             _sheepList.Remove(sheepScript);
         }
 
         if(_sheepList.Count <= 0)
         {
-            score += 40;
+            score += 200;
             NewWave();
         }
         sheepScript.Unregister();
         Destroy(sheepScript.gameObject);
 
         UIIGScore.text = score.ToString();
+        StartCoroutine(scoreObject.FontEffect(UIIGScore, 89));
         UISheepCount.text = _sheepList.Count.ToString();
         StartCoroutine(scoreObject.FontEffect(UISheepCount,89));
     }

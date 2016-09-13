@@ -19,10 +19,14 @@ public class ScoreRecap : MonoBehaviour
     [SerializeField]
     Text menuScoreEnd;
 
+    public LevelManager Manager;
+
     string[,] PlayerName = new string[3,5];
 
     [SerializeField] // Future feature, sauvegarde de score multiple
     Dictionary<string, int[]> bestScore = new Dictionary<string, int[]>();
+
+
 
     void Awake()
     {
@@ -64,6 +68,7 @@ public class ScoreRecap : MonoBehaviour
         {
             if (bestScore[levelName][i] < score)
             {
+                menuScoreEnd.text = ("YOUR SCORE IS : " + score);
                 InsertScoreInBestScores(bestScore[levelName], score, i);
                 UpdateHighScoresMenu(levelName, score, i);
                 break;
@@ -76,7 +81,7 @@ public class ScoreRecap : MonoBehaviour
         }
         PlayerPrefs.Save();
     }
-
+    
  
     void InsertScoreInBestScores(int[] tab, int bestScore, int index)
     {
