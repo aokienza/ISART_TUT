@@ -1,0 +1,193 @@
+fileFormatVersion: 2
+guid: cb68d2a46367d5945b2a1df235826548
+timeCreated: 1473735328
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Sheperd_haed
+    100002: Shepherd_body
+    100004: Shepherd_haed
+    100006: Shepherd_haed2
+    100008: Shepherd_hip_joint
+    100010: Shepherd_left_elbow
+    100012: Shepherd_left_elbow2
+    100014: Shepherd_left_hand
+    100016: Shepherd_left_leg
+    100018: Shepherd_left_leg2
+    100020: Shepherd_left_leg3
+    100022: Shepherd_left_shoulder
+    100024: //RootNode
+    100026: Shepherd_Right_elbow
+    100028: Shepherd_Right_elbow2
+    100030: Shepherd_Right_hand
+    100032: Shepherd_Right_leg
+    100034: Shepherd_Right_leg2
+    100036: Shepherd_Right_leg3
+    100038: Shepherd_Right_shoulder
+    100040: Shepherd_spine
+    100042: Shepherd_spine2
+    400000: Sheperd_haed
+    400002: Shepherd_body
+    400004: Shepherd_haed
+    400006: Shepherd_haed2
+    400008: Shepherd_hip_joint
+    400010: Shepherd_left_elbow
+    400012: Shepherd_left_elbow2
+    400014: Shepherd_left_hand
+    400016: Shepherd_left_leg
+    400018: Shepherd_left_leg2
+    400020: Shepherd_left_leg3
+    400022: Shepherd_left_shoulder
+    400024: //RootNode
+    400026: Shepherd_Right_elbow
+    400028: Shepherd_Right_elbow2
+    400030: Shepherd_Right_hand
+    400032: Shepherd_Right_leg
+    400034: Shepherd_Right_leg2
+    400036: Shepherd_Right_leg3
+    400038: Shepherd_Right_shoulder
+    400040: Shepherd_spine
+    400042: Shepherd_spine2
+    4300000: Sheperd_haed
+    4300002: Shepherd_body
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Sheperd_haed
+    13700002: Shepherd_body
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 6
+      lastFrame: 12
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Sheperd_haed
+        weight: 1
+      - path: Shepherd_body
+        weight: 1
+      - path: Shepherd_spine
+        weight: 1
+      - path: Shepherd_spine/Shepherd_hip_joint
+        weight: 1
+      - path: Shepherd_spine/Shepherd_hip_joint/Shepherd_left_leg
+        weight: 1
+      - path: Shepherd_spine/Shepherd_hip_joint/Shepherd_left_leg/Shepherd_left_leg2
+        weight: 1
+      - path: Shepherd_spine/Shepherd_hip_joint/Shepherd_left_leg/Shepherd_left_leg2/Shepherd_left_leg3
+        weight: 1
+      - path: Shepherd_spine/Shepherd_hip_joint/Shepherd_Right_leg
+        weight: 1
+      - path: Shepherd_spine/Shepherd_hip_joint/Shepherd_Right_leg/Shepherd_Right_leg2
+        weight: 1
+      - path: Shepherd_spine/Shepherd_hip_joint/Shepherd_Right_leg/Shepherd_Right_leg2/Shepherd_Right_leg3
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_haed
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_haed/Shepherd_haed2
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_left_shoulder
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_left_shoulder/Shepherd_left_elbow
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_left_shoulder/Shepherd_left_elbow/Shepherd_left_elbow2
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_left_shoulder/Shepherd_left_elbow/Shepherd_left_elbow2/Shepherd_left_hand
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_Right_shoulder
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_Right_shoulder/Shepherd_Right_elbow
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_Right_shoulder/Shepherd_Right_elbow/Shepherd_Right_elbow2
+        weight: 1
+      - path: Shepherd_spine/Shepherd_spine2/Shepherd_Right_shoulder/Shepherd_Right_elbow/Shepherd_Right_elbow2/Shepherd_Right_hand
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
