@@ -42,7 +42,7 @@ public class InputHandler : MonoBehaviour, EventHandler
         {
             if(ButtonCooler < 0 && touch.tapCount == 2)
             {
-                ButtonCooler = 0.5f;
+                ButtonCooler = 0.6f;
                 return true;
             }
         }
