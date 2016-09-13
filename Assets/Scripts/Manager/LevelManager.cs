@@ -62,7 +62,7 @@ public class LevelManager : MonoBehaviour, EventHandler
         UIIGScore = GameObject.Find("UIIGScore").GetComponent<Text>();
         GameOverButton = GameObject.Find("UIGameOver");
 
-        GameOverButton.SetActive(false);
+        //GameOverButton.SetActive(false);
     }
 
     public void PlayerCought()
