@@ -19,6 +19,8 @@ public class Stone : MonoBehaviour {
         if (col.transform.CompareTag("Player"))
         {
             col.gameObject.GetComponent<PlayerController>().velocity = 0;
+            col.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            col.gameObject.GetComponent<BoxCollider>().isTrigger = false;
             Invoke("setFloat", StanTime);
         }
         if (col.transform.CompareTag("Sheep"))
@@ -30,9 +32,17 @@ public class Stone : MonoBehaviour {
 
         }
     }
-
-    void setFloat()
+    void OnTriggerExit(Collider col)
+    {
+        if (col.transform.CompareTag("Player"))
+        {
+            col.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            col.gameObject.GetComponent<BoxCollider>().isTrigger = true;
+        }
+    }
+            void setFloat()
     {
         GameObject.FindWithTag("Player").GetComponent<PlayerController>().velocity = velocity;
     }
+    
 }
