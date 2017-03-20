@@ -31,11 +31,16 @@ public class MainMenu : MonoBehaviour
 
     public GameObject LoadingScreen;
     public GameObject GameOverButton;
-
+    public GameObject leftHand, rightHand;
 
     // Use this for initialization
     void Awake()
     {
+        Screen.orientation = ScreenOrientation.LandscapeRight;
+        Screen.autorotateToPortrait = false;
+        Screen.autorotateToPortraitUpsideDown = false;
+        Screen.autorotateToLandscapeLeft = true;
+        Screen.autorotateToLandscapeRight = true;
         if (instance == null)
             instance = this;
 
@@ -43,6 +48,10 @@ public class MainMenu : MonoBehaviour
             Destroy(gameObject);
 
         DontDestroyOnLoad(transform.gameObject);
+    }
+    private void Start()
+    {
+        IsRightHanded();
     }
 
     public void UnPauseLevel()
@@ -90,6 +99,8 @@ public class MainMenu : MonoBehaviour
         if (!rightHanded)
         {
             rightHanded = false;
+            leftHand.SetActive(true);
+            rightHand.SetActive(false);
             DigButton.GetComponent<Transform>().position = PointGauche.transform.position;
             recapsScore.GetComponent<Transform>().position = PointDroit.transform.position;
             
@@ -97,6 +108,8 @@ public class MainMenu : MonoBehaviour
         else if (rightHanded)
         {
             rightHanded = true;
+            rightHand.SetActive(true);
+            leftHand.SetActive(false);
             DigButton.GetComponent<Transform>().position = PointDroit.transform.position;
             recapsScore.GetComponent<Transform>().position = PointGauche.transform.position;
         }
